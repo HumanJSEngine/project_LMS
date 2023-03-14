@@ -1,16 +1,11 @@
-import { Route, Routes } from "react-router-dom";
-import "./App.css";
-import Auth from "./pages/Auth";
+import { RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import ManageScore from "./pages/ManageScore";
+import { routers } from "./types/routes";
 
 function App() {
   return (
     <RecoilRoot>
-      <Routes>
-        <Route path="/" element={<Auth />}></Route>
-        <Route path="managescore" element={<ManageScore />} />
-      </Routes>
+      <RouterProvider router={routers} />
     </RecoilRoot>
   );
 }

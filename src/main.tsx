@@ -8,8 +8,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
 import GlobalStyle from "./styles/GlobalStyle";
-import { ThemeProvider } from "styled-components";
 import theme from "./styles/Theme";
+import { ThemeProvider } from "@mui/material";
 // import { ScrollToTop } from "./components/ui/ScrollToTop";
 
 export const persistor = persistStore(store);
@@ -17,12 +17,12 @@ export const persistor = persistStore(store);
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
-      <BrowserRouter>
-        <ThemeProvider theme={theme}>
-          <GlobalStyle />
+      <ThemeProvider theme={theme}>
+        <GlobalStyle />
+        <BrowserRouter>
           <App />
-        </ThemeProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </ThemeProvider>
     </PersistGate>
   </Provider>,
 );

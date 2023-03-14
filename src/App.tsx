@@ -1,10 +1,12 @@
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
+import Auth from "./pages/Auth";
 
 function App() {
   return (
-    
-      <div className="App"><h1>기본세팅중</h1></div>
-
+    <Routes>
+      <Route path="/" element={<Auth />}></Route>
+    </Routes>
   );
 }
 

@@ -1,6 +1,6 @@
-import { css } from "@emotion/react";
+import { css, Global } from "@emotion/react";
 
-const GlobalStyle = css`
+const styles = css`
   html {
     line-height: 1.15;
     -webkit-text-size-adjust: 100%;
@@ -87,5 +87,9 @@ const GlobalStyle = css`
     top: -0.5em;
   }
 `;
+
+const GlobalStyle = () => {
+  return <Global styles={styles} />;
+};
 
 export default GlobalStyle;

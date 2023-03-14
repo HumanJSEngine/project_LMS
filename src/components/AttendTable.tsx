@@ -28,18 +28,35 @@ import styled from "@emotion/styled";
 
 const AttendTable = () => {
   return (
-    <table>
+    <Tbbox>
       <caption>출결 관리</caption>
-      <tr>
-        <th scope="col">학생/출석</th>
-        <th scope="col">1차시</th>
-        <th scope="col">2차시</th>
-      </tr>
-      <tr>
-        <td>학생1</td>
-        <td><input type='checkbox'/></td>
-      </tr>
-    </table>
+      <tbody>
+        <tr>
+          <th scope="col">학생/출석</th>
+          <th scope="col">1차시</th>
+          <th scope="col">2차시</th>
+        </tr>
+        <tr>
+          <td>학생1</td>
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>
+            <input type="checkbox" />
+          </td>
+        </tr>
+        <tr>
+          <td>학생2</td>
+          <td>
+            <input type="checkbox" />
+          </td>
+          <td>
+            <input type="checkbox" />
+          </td>
+        </tr>
+      </tbody>
+    </Tbbox>
+
     // <Tbbox>
     //   <TableContainer component={Paper}>
     //     <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -82,10 +99,10 @@ const AttendTable = () => {
   );
 };
 
-const Tbbox = styled.div`
+const Tbbox = styled.table`
   width: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  tr {
+    border: 1px solid black;
+  }
 `;
 export default AttendTable;

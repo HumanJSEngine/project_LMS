@@ -8,8 +8,8 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistStore } from "redux-persist";
 import { Provider } from "react-redux";
 import GlobalStyle from "./styles/GlobalStyle";
-import { ThemeProvider } from "styled-components";
-import theme from "./styles/Theme";
+import { ThemeProvider } from "@mui/material";
+import { theme } from "./styles/Theme";
 // import { ScrollToTop } from "./components/ui/ScrollToTop";
 
 export const persistor = persistStore(store);

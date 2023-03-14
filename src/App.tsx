@@ -1,10 +1,15 @@
 import "./App.css";
+import { Routes, Route } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+import ManageScore from "./pages/ManageScore";
 
 function App() {
   return (
-    
-      <div className="App"><h1>기본세팅중</h1></div>
-
+    <RecoilRoot>
+      <Routes>
+        <Route path="managescore" element={<ManageScore />} />
+      </Routes>
+    </RecoilRoot>
   );
 }
 

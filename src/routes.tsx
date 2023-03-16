@@ -3,6 +3,11 @@ import Layout from "./components/common/Layout";
 import Auth from "./pages/Auth";
 import ManageScore from "./pages/ManageScore";
 import MyClass from "./pages/MyClass";
+import Attend from "./pages/Attend";
+import Auth from "./pages/Auth";
+import Finterm from "./pages/Finterm";
+import Midterm from "./pages/Midterm";
+import Report from "./pages/Report";
 export type UserType = "student" | "professor" | "staff";
 type MenuDepthType = "main";
 interface IRoute {
@@ -50,21 +55,22 @@ export const routerData: IRoute[] = [
   {
     name: "성적 관리 - 출결",
     path: "/myclass/:classid/grade/attend",
-    element: <ManageScore />,
+    path: "/:classid/grade/attend",
+    element: <Attend />,
     withAuth: true,
     authType: "professor",
   },
   {
     name: "성적 관리 - 중간시험",
     path: "/myclass/:classid/grade/midterm",
-    element: <Auth />,
+    element: <Midterm />,
     withAuth: true,
     authType: "professor",
   },
   {
     name: "성적 관리 - 기말시험",
     path: "/myclass/:classid/grade/finterm",
-    element: <Auth />,
+    element: <Finterm />,
     withAuth: true,
     authType: "professor",
   },
@@ -79,6 +85,8 @@ export const routerData: IRoute[] = [
     name: "성적 관리 - 최종성적",
     path: "/myclass/:classid/grade/total",
     element: <Auth />,
+    path: "/:classid/grade/report",
+    element: <Report />,
     withAuth: true,
     authType: "professor",
   },

@@ -23,7 +23,6 @@ const Page = styled.div`
   height: 100vh;
   & .content {
     width: calc(100% - 240px);
-    padding: 20px;
     overflow-y: auto;
   }
 `;

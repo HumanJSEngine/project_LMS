@@ -18,4 +18,7 @@ const colors = {
   gray900: "#212121",
 };
 
+export const shadow = "2px 4px 16px 0px rgba(0, 0, 0, 0.1)";
+export const transition = "0.3s ease-in-out";
+
 export default colors;

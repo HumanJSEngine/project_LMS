@@ -1,109 +1,133 @@
 import { createBrowserRouter } from "react-router-dom";
+import Layout from "./components/common/Layout";
 import Auth from "./pages/Auth";
-type UserType = "student" | "professor" | "staff";
+import ManageScore from "./pages/ManageScore";
+import MyClass from "./pages/MyClass";
+export type UserType = "student" | "professor" | "staff";
+type MenuDepthType = "main";
 interface IRoute {
-  id: string;
   name: string;
   path: string;
   element: React.ReactNode;
   withAuth: boolean;
-  AuthType?: UserType;
+  menuDepth?: MenuDepthType;
+  authType?: UserType;
+}
+export interface PathData {
+  name: string;
+  path: string;
 }
 export const routerData: IRoute[] = [
   {
-    id: "route1",
     name: "로그인",
     path: "/",
     element: <Auth />,
     withAuth: false,
   },
   {
-    id: "route2",
     name: "내 강의 시간표",
     path: "/mychedule",
     element: <Auth />,
     withAuth: true,
-    AuthType: "professor",
+    menuDepth: "main",
+    authType: "professor",
   },
   {
-    id: "route3",
+    name: "내 강의",
+    path: "/myclass",
+    element: <MyClass />,
+    withAuth: true,
+    menuDepth: "main",
+    authType: "professor",
+  },
+  {
     name: "수강생 관리",
-    path: "/:classid/student",
+    path: "/myclass/:classid/student",
     element: <Auth />,
     withAuth: true,
-    AuthType: "professor",
+    authType: "professor",
   },
   {
-    id: "route4",
     name: "성적 관리 - 출결",
-    path: "/:classid/grade/attend",
-    element: <Auth />,
+    path: "/myclass/:classid/grade/attend",
+    element: <ManageScore />,
     withAuth: true,
-    AuthType: "professor",
+    authType: "professor",
   },
   {
-    id: "route5",
     name: "성적 관리 - 중간시험",
-    path: "/:classid/grade/midterm",
+    path: "/myclass/:classid/grade/midterm",
     element: <Auth />,
     withAuth: true,
-    AuthType: "professor",
+    authType: "professor",
   },
   {
-    id: "route6",
     name: "성적 관리 - 기말시험",
-    path: "/:classid/grade/finterm",
+    path: "/myclass/:classid/grade/finterm",
     element: <Auth />,
     withAuth: true,
-    AuthType: "professor",
+    authType: "professor",
   },
   {
-    id: "route7",
     name: "성적 관리 - 과제",
-    path: "/:classid/grade/report",
+    path: "/myclass/:classid/grade/report",
     element: <Auth />,
     withAuth: true,
-    AuthType: "professor",
+    authType: "professor",
   },
   {
-    id: "route8",
+    name: "성적 관리 - 최종성적",
+    path: "/myclass/:classid/grade/total",
+    element: <Auth />,
+    withAuth: true,
+    authType: "professor",
+  },
+  {
     name: "학생, 교수 관리",
     path: "/management",
     element: <Auth />,
     withAuth: true,
-    AuthType: "staff",
+    menuDepth: "main",
+    authType: "staff",
   },
   {
-    id: "route9",
     name: "전체 계정 조회",
     path: "/account",
     element: <Auth />,
     withAuth: true,
-    AuthType: "staff",
+    menuDepth: "main",
+    authType: "staff",
   },
   {
-    id: "route10",
     name: "강의 개설",
     path: "/makeclass",
     element: <Auth />,
     withAuth: true,
-    AuthType: "staff",
+    menuDepth: "main",
+    authType: "staff",
   },
   {
-    id: "route11",
     name: "강의 수정",
     path: "/editclass",
     element: <Auth />,
     withAuth: true,
-    AuthType: "staff",
+    menuDepth: "main",
+    authType: "staff",
   },
 ];
 
 export const routers = createBrowserRouter(
   routerData.map(router => {
-    return {
-      path: router.path,
-      element: router.element,
-    };
+    if (router.withAuth) {
+      return {
+        path: router.path,
+        element: <Layout>{router.element}</Layout>,
+      };
+    } else {
+      return {
+        path: router.path,
+        element: router.element,
+      };
+    }
   }),
 );

@@ -1,4 +1,6 @@
 import { css, Global } from "@emotion/react";
+import { font } from "./fonts";
+import colors from "./palette";
 
 const styles = css`
   html {
@@ -21,6 +23,8 @@ const styles = css`
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font: ${font.style15Regular};
+    color: ${colors.gray900};
   }
 
   main {

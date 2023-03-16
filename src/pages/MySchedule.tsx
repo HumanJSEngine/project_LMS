@@ -34,6 +34,12 @@ const appointments: AppointmentModel[] = [
     type: "work2",
   },
   {
+    startDate: "2023-04-06T14:30",
+    endDate: "2023-04-06T16:00",
+    title: "영어회화",
+    type: "work3",
+  },
+  {
     startDate: "2023-03-15T11:30",
     endDate: "2023-03-15T13:00",
     title: "C언어",
@@ -45,8 +51,9 @@ const resources = [
     fieldName: "type",
     title: "Type",
     instances: [
-      { id: "work1", text: "Private", color: "#CF000F" },
-      { id: "work2", text: "Work", color: "#A60000" },
+      { id: "work1", text: "Word0", color: "#CF000F" },
+      { id: "work2", text: "Work1", color: "#A60000" },
+      { id: "work3", text: "Work2", color: "#7f1d1d" },
     ],
   },
 ];
@@ -57,7 +64,7 @@ const MySchedule = () => {
     <div>
       <Table>
         <Paper>
-          <Scheduler data={appointments} height={860}>
+          <Scheduler data={appointments} height={860} firstDayOfWeek={1}>
             <ViewState
               defaultCurrentDate="2023-04-03"
               defaultCurrentViewName="Week"
@@ -81,8 +88,28 @@ const MySchedule = () => {
 
 const Table = styled.table`
   display: flex;
-  width: 80%;
+  width: 100%;
   height: 100%;
+  .css-1udt7rb-MuiButtonBase-root-MuiButton-root {
+    font-size: 15px;
+    color: #991b1b;
+    font-weight: 700;
+  }
+  .css-18reufz-MuiTableCell-root .Cell-highlightedText {
+    color: #000;
+  }
+  .css-vr6fpo .HorizontalAppointment-title {
+    font-weight: bold;
+  }
+  .css-1w0n0hm-MuiButtonBase-root-MuiButton-root.TodayButton-button:first-of-type {
+    font-weight: bold;
+  }
+  .css-gyiown .VerticalAppointment-title {
+    font-size: 15px;
+  }
+  .VerticalAppointment-time {
+    line-height: 18px;
+  }
 `;
 
 export default MySchedule;

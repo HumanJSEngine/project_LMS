@@ -1,11 +1,9 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./components/common/Layout";
 import Auth from "./pages/Auth";
-import ManageScore from "./pages/ManageScore";
 import MyClass from "./pages/MyClass";
 import Attend from "./pages/Attend";
-import Auth from "./pages/Auth";
-import MySchedule from "./pages/mySchedule";
+import MySchedule from "./pages/MySchedule";
 import Finterm from "./pages/Finterm";
 import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
@@ -56,7 +54,6 @@ export const routerData: IRoute[] = [
   {
     name: "성적 관리 - 출결",
     path: "/myclass/:classid/grade/attend",
-    path: "/:classid/grade/attend",
     element: <Attend />,
     withAuth: true,
     authType: "professor",
@@ -77,8 +74,8 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 과제",
-    path: "/myclass/:classid/grade/report",
-    element: <Auth />,
+    path: "/:classid/grade/report",
+    element: <Report />,
     withAuth: true,
     authType: "professor",
   },
@@ -86,8 +83,6 @@ export const routerData: IRoute[] = [
     name: "성적 관리 - 최종성적",
     path: "/myclass/:classid/grade/total",
     element: <Auth />,
-    path: "/:classid/grade/report",
-    element: <Report />,
     withAuth: true,
     authType: "professor",
   },

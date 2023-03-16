@@ -12,6 +12,7 @@ import Student from "./pages/Student";
 import MyClassLayout from "./components/myclass/MyClassLayout";
 export type UserType = "student" | "professor" | "staff" | "all";
 type MenuDepthType = "main";
+
 interface IRoute {
   name: string;
   path: string;
@@ -96,7 +97,7 @@ export const routerData: IRoute[] = [
     path: "/myclass/:classid/grade/report",
     element: (
       <MyClassLayout>
-        <Auth />
+          element: <Report />,
       </MyClassLayout>
     ),
     withAuth: true,

@@ -1,95 +1,64 @@
 import styled from "@emotion/styled";
 import { BsCheckCircle, BsXCircle } from "react-icons/bs";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 
-const AttendTable = () => {
+function createData(
+  name: string,
+  calories: number,
+  fat: number,
+  carbs: number,
+  protein: number,
+) {
+  return { name, calories, fat, carbs, protein };
+}
+
+const rows = [
+  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
+  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
+  createData("Eclair", 262, 16.0, 24, 6.0),
+  createData("Cupcake", 305, 3.7, 67, 4.3),
+  createData("Gingerbread", 356, 16.0, 49, 3.9),
+];
+
+export default function DenseTable() {
   return (
-    <Tbbox>
-      <caption>출결 관리</caption>
-      <thead>
-        <tr>
-          <th scope="col">학생/출석</th>
-          <th scope="col">1차시</th>
-          <th scope="col">2차시</th>
-          <th scope="col">3차시</th>
-          <th scope="col">4차시</th>
-        </tr>
-      </thead>
-      <tbody>
-        <Trbox>
-          <th scope="row">학생1</th>
-          <td>
-            <span>
-              <BsCheckCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsXCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsCheckCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsXCircle />
-            </span>
-          </td>
-        </Trbox>
-        <Trbox>
-          <th scope="row">학생2</th>
-          <td>
-            <span>
-              <BsCheckCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsXCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsCheckCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsXCircle />
-            </span>
-          </td>
-        </Trbox>
-        <Trbox>
-          <th scope="row">학생3</th>
-          <td>
-            <span>
-              <BsCheckCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsXCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsCheckCircle />
-            </span>
-          </td>
-          <td>
-            <span>
-              <BsXCircle />
-            </span>
-          </td>
-        </Trbox>
-      </tbody>
-    </Tbbox>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
+        <TableHead>
+          <TableRow>
+            <TableCell>Dessert (100g serving)</TableCell>
+            <TableCell align="right">Calories</TableCell>
+            <TableCell align="right">Fat&nbsp;(g)</TableCell>
+            <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+            <TableCell align="right">Protein&nbsp;(g)</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {rows.map(row => (
+            <TableRow
+              key={row.name}
+              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+            >
+              <TableCell component="th" scope="row">
+                {row.name}
+              </TableCell>
+              <TableCell align="right">{row.calories}</TableCell>
+              <TableCell align="right">{row.fat}</TableCell>
+              <TableCell align="right">{row.carbs}</TableCell>
+              <TableCell align="right">{row.protein}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
-};
-
-
+}
 
 const Tbbox = styled.table`
   thead > tr > th {
@@ -99,7 +68,7 @@ const Tbbox = styled.table`
   tbody > tr > th {
     border: 1px solid black;
     text-align: center;
-    height:40px;
+    height: 40px;
   }
 `;
 
@@ -113,4 +82,3 @@ const Trbox = styled.tr`
     }
   }
 `;
-export default AttendTable;

@@ -5,6 +5,7 @@ import ManageScore from "./pages/ManageScore";
 import MyClass from "./pages/MyClass";
 import Attend from "./pages/Attend";
 import Auth from "./pages/Auth";
+import MySchedule from "./pages/mySchedule";
 import Finterm from "./pages/Finterm";
 import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
@@ -32,7 +33,7 @@ export const routerData: IRoute[] = [
   {
     name: "내 강의 시간표",
     path: "/mychedule",
-    element: <Auth />,
+    element: <MySchedule />,
     withAuth: true,
     menuDepth: "main",
     authType: "professor",

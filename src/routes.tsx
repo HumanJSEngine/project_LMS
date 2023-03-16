@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import Auth from "./pages/Auth";
+import MySchedule from "./pages/mySchedule";
 type UserType = "student" | "professor" | "staff";
 interface IRoute {
   id: string;
@@ -21,7 +22,7 @@ export const routerData: IRoute[] = [
     id: "route2",
     name: "내 강의 시간표",
     path: "/mychedule",
-    element: <Auth />,
+    element: <MySchedule />,
     withAuth: true,
     AuthType: "professor",
   },

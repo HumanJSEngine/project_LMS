@@ -18,6 +18,7 @@ const Box = styled.div`
   gap: 20px;
   width: 100%;
   height: 100%;
+  padding: 20px;
   & h2 {
     font: ${font.style20Medium};
     color: ${colors.gray900};

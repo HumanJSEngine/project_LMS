@@ -1,12 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./components/common/Layout";
-import Auth from "./pages/Auth";
 import MyClass from "./pages/MyClass";
 import Attend from "./pages/Attend";
-import MySchedule from "./pages/MySchedule";
+import Auth from "./pages/Auth";
 import Finterm from "./pages/Finterm";
 import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
+import MySchedule from "./pages/MySchedule";
 export type UserType = "student" | "professor" | "staff";
 type MenuDepthType = "main";
 

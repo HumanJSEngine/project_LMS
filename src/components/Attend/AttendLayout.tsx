@@ -1,7 +1,10 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const AttendLayout = ({ children }) => {
+interface AttendLayoutProps {
+  children: React.ReactNode;
+}
+const AttendLayout = ({ children }: AttendLayoutProps) => {
   return <Layout>{children}</Layout>;
 };
 

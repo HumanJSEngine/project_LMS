@@ -76,7 +76,7 @@ export const routerData: IRoute[] = [
   {
     name: "성적 관리 - 과제",
     path: "/myclass/:classid/grade/report",
-    element: <Auth />,
+    element: <Report />,
     withAuth: true,
     authType: "professor",
   },

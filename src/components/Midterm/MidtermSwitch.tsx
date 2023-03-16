@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import Table from "@mui/material/Table";
@@ -15,7 +15,7 @@ import FirstPageIcon from "@mui/icons-material/FirstPage";
 import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
 import LastPageIcon from "@mui/icons-material/LastPage";
-import MidtermSwitch from "../components/Midterm/MidtermSwitch";
+import { ScoreInput } from "./ScoreInput";
 
 interface TablePaginationActionsProps {
   count: number;
@@ -117,7 +117,7 @@ const rows = [
 ].sort((a, b) => (a.score < b.score ? -1 : 1));
 
 export default function CustomPaginationActionsTable() {
-  const [swap, setSwap] = useState(false);
+  const scoreInput = useRef(null);
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
@@ -139,72 +139,55 @@ export default function CustomPaginationActionsTable() {
   };
 
   return (
-    <>
-      {swap ? (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 200 }} aria-label="custom pagination table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">학생명</TableCell>
-                <TableCell align="left">점수</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {(rowsPerPage > 0
-                ? rows.slice(
-                    page * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage,
-                  )
-                : rows
-              ).map(row => (
-                <TableRow key={row.name}>
-                  <TableCell
-                    component="th"
-                    scope="row"
-                    size="medium"
-                    align="left"
-                  >
-                    {row.name}
-                  </TableCell>
-                  <TableCell component="th" size="medium" align="left">
-                    {row.score}
-                  </TableCell>
-                </TableRow>
-              ))}
-              {emptyRows > 0 && (
-                <TableRow style={{ height: 50 * emptyRows }}>
-                  <TableCell colSpan={5} />
-                </TableRow>
-              )}
-            </TableBody>
-            <TableFooter>
-              <TableRow>
-                <TablePagination
-                  rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-                  colSpan={3}
-                  count={rows.length}
-                  rowsPerPage={rowsPerPage}
-                  page={page}
-                  SelectProps={{
-                    inputProps: {
-                      "aria-label": "페이지별 학생 수",
-                    },
-                    native: true,
-                  }}
-                  onPageChange={handleChangePage}
-                  onRowsPerPageChange={handleChangeRowsPerPage}
-                  ActionsComponent={TablePaginationActions}
-                />
-              </TableRow>
-            </TableFooter>
-          </Table>
-        </TableContainer>
-      ) : (
-        <MidtermSwitch />
-      )}
-      <button type="submit" onClick={() => setSwap(prev => !prev)}>
-        {swap ? "수정" : "저장"}
-      </button>
-    </>
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 200 }} aria-label="custom pagination table">
+        <TableHead>
+          <TableRow>
+            <TableCell align="left">학생명</TableCell>
+            <TableCell align="left">점수</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {(rowsPerPage > 0
+            ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            : rows
+          ).map(row => (
+            <TableRow key={row.name}>
+              <TableCell component="th" scope="row" size="medium" align="left">
+                {row.name}
+              </TableCell>
+              <TableCell component="th" size="medium" align="left">
+                <ScoreInput score={row.score} />
+              </TableCell>
+            </TableRow>
+          ))}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 50 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
+        </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
+              colSpan={3}
+              count={rows.length}
+              rowsPerPage={rowsPerPage}
+              page={page}
+              SelectProps={{
+                inputProps: {
+                  "aria-label": "rows per page",
+                },
+                native: true,
+              }}
+              onPageChange={handleChangePage}
+              onRowsPerPageChange={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
+        </TableFooter>
+      </Table>
+    </TableContainer>
   );
 }

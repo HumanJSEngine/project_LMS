@@ -18,7 +18,7 @@ const theme = createTheme({
     },
   },
   typography: {
-    fontFamily: [""].join(","),
+    fontFamily: ["Noto Sans KR"].join(","),
   },
 });
 

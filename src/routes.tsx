@@ -1,14 +1,22 @@
 import { createBrowserRouter } from "react-router-dom";
 import Layout from "./components/common/Layout";
+<<<<<<< HEAD
 import Auth from "./pages/Auth";
 import MyClass from "./pages/MyClass";
 import Attend from "./pages/Attend";
 import MySchedule from "./pages/MySchedule";
+=======
+import MyClass from "./pages/MyClass";
+import Attend from "./pages/Attend";
+import Auth from "./pages/Auth";
+>>>>>>> e5aeded7c6a8e77d6824d8d559aaf88dc6b2ae3e
 import Finterm from "./pages/Finterm";
 import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
+import MySchedule from "./pages/MySchedule";
 export type UserType = "student" | "professor" | "staff";
 type MenuDepthType = "main";
+
 interface IRoute {
   name: string;
   path: string;
@@ -82,7 +90,11 @@ export const routerData: IRoute[] = [
   {
     name: "성적 관리 - 최종성적",
     path: "/myclass/:classid/grade/total",
+<<<<<<< HEAD
     element: <Auth />,
+=======
+    element: <Report />,
+>>>>>>> e5aeded7c6a8e77d6824d8d559aaf88dc6b2ae3e
     withAuth: true,
     authType: "professor",
   },

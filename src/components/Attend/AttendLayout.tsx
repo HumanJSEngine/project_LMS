@@ -8,8 +8,8 @@ const AttendLayout = ({ children }) => {
 const Layout = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: center;
-  width: 100vw;
+  justify-content: flex-start;
+  width: 100%;
   height: 100vh;
 `;
 

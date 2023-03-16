@@ -7,7 +7,10 @@ import Finterm from "./pages/Finterm";
 import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
 import MySchedule from "./pages/MySchedule";
-export type UserType = "student" | "professor" | "staff";
+import Setting from "./pages/Setting";
+import Student from "./pages/Student";
+import MyClassLayout from "./components/myclass/MyClassLayout";
+export type UserType = "student" | "professor" | "staff" | "all";
 type MenuDepthType = "main";
 interface IRoute {
   name: string;
@@ -47,42 +50,66 @@ export const routerData: IRoute[] = [
   {
     name: "수강생 관리",
     path: "/myclass/:classid/student",
-    element: <Auth />,
+    element: (
+      <MyClassLayout>
+        <Student />
+      </MyClassLayout>
+    ),
     withAuth: true,
     authType: "professor",
   },
   {
     name: "성적 관리 - 출결",
     path: "/myclass/:classid/grade/attend",
-    element: <Attend />,
+    element: (
+      <MyClassLayout>
+        <Attend />
+      </MyClassLayout>
+    ),
     withAuth: true,
     authType: "professor",
   },
   {
     name: "성적 관리 - 중간시험",
     path: "/myclass/:classid/grade/midterm",
-    element: <Midterm />,
+    element: (
+      <MyClassLayout>
+        <Midterm />
+      </MyClassLayout>
+    ),
     withAuth: true,
     authType: "professor",
   },
   {
     name: "성적 관리 - 기말시험",
     path: "/myclass/:classid/grade/finterm",
-    element: <Finterm />,
+    element: (
+      <MyClassLayout>
+        <Finterm />
+      </MyClassLayout>
+    ),
     withAuth: true,
     authType: "professor",
   },
   {
     name: "성적 관리 - 과제",
     path: "/myclass/:classid/grade/report",
-    element: <Auth />,
+    element: (
+      <MyClassLayout>
+        <Auth />
+      </MyClassLayout>
+    ),
     withAuth: true,
     authType: "professor",
   },
   {
     name: "성적 관리 - 최종성적",
     path: "/myclass/:classid/grade/total",
-    element: <Report />,
+    element: (
+      <MyClassLayout>
+        <Report />
+      </MyClassLayout>
+    ),
     withAuth: true,
     authType: "professor",
   },
@@ -117,6 +144,13 @@ export const routerData: IRoute[] = [
     withAuth: true,
     menuDepth: "main",
     authType: "staff",
+  },
+  {
+    name: "설정",
+    path: "/setting",
+    element: <Setting />,
+    withAuth: true,
+    authType: "all",
   },
 ];
 

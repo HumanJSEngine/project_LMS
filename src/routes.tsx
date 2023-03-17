@@ -10,6 +10,7 @@ import MySchedule from "./pages/MySchedule";
 import Setting from "./pages/Setting";
 import Student from "./pages/Student";
 import MyClassLayout from "./components/myclass/MyClassLayout";
+import EditClass from "./pages/EditClass";
 export type UserType = "student" | "professor" | "staff" | "all";
 type MenuDepthType = "main";
 
@@ -141,7 +142,7 @@ export const routerData: IRoute[] = [
   {
     name: "강의 수정",
     path: "/editclass",
-    element: <Auth />,
+    element: <EditClass />,
     withAuth: true,
     menuDepth: "main",
     authType: "staff",

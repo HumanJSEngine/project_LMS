@@ -97,8 +97,9 @@ export const routerData: IRoute[] = [
     path: "/myclass/:classid/grade/report",
     element: (
       <MyClassLayout>
-          element: <Report />,
+        element: <Report />
       </MyClassLayout>
+    ),
     withAuth: true,
     authType: "professor",
   },

@@ -2,9 +2,9 @@ import React from "react";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
 
-const ReportBtn = ({ setOpen }) => {
+const ReportBtn = ({ open, setOpen }) => {
   return (
-    <Btn onClick={() => setOpen(prev => !prev)} variant="contained">
+    <Btn onClick={() => setOpen(open => !open)} variant="contained">
       성적조회
     </Btn>
   );

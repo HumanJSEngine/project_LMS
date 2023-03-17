@@ -26,50 +26,66 @@ const rows = [
   createData("Gingerbread", 356, 16.0, 49, 3.9),
 ];
 
-const ViewReportScore = () => {
+const ViewReportScore = ({ open, setOpen }) => {
   return (
-    <Box>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
-          <TableHead>
-            <TableRow>
-              <TableCell>Dessert (100g serving)</TableCell>
-              <TableCell align="right">Calories</TableCell>
-              <TableCell align="right">Fat&nbsp;(g)</TableCell>
-              <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-              <TableCell align="right">Protein&nbsp;(g)</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {rows.map(row => (
-              <TableRow
-                key={row.name}
-                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-              >
-                <TableCell component="th" scope="row">
-                  {row.name}
-                </TableCell>
-                <TableCell align="right">{row.calories}</TableCell>
-                <TableCell align="right">{row.fat}</TableCell>
-                <TableCell align="right">{row.carbs}</TableCell>
-                <TableCell align="right">{row.protein}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-    </Box>
+    <>
+      {open ? (
+        <Box>
+          <TableContainer component={Paper}>
+            <Table
+              sx={{ minWidth: 650 }}
+              size="small"
+              aria-label="a dense table"
+            >
+              <TableHead>
+                <TableRow>
+                  <TableCell>Dessert (100g serving)</TableCell>
+                  <TableCell align="right">Calories</TableCell>
+                  <TableCell align="right">Fat&nbsp;(g)</TableCell>
+                  <TableCell align="right">Carbs&nbsp;(g)</TableCell>
+                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {rows.map(row => (
+                  <TableRow
+                    key={row.name}
+                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+                  >
+                    <TableCell component="th" scope="row">
+                      {row.name}
+                    </TableCell>
+                    <TableCell align="right">{row.calories}</TableCell>
+                    <TableCell align="right">{row.fat}</TableCell>
+                    <TableCell align="right">{row.carbs}</TableCell>
+                    <TableCell align="right">{row.protein}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </Box>
+      ) : null}
+    </>
   );
 };
+
+// const Background = styled.div`
+//   width: 100%;
+//   height: 100%;
+//   background: rgba(93, 90, 90, 0.8);
+//   position: fixed;
+//   top:0;
+//   left:0;
+// `;
 
 const Box = styled.div`
   position: absolute;
   display: flex;
-  justify-content: center;
-  align-items: center;
   top: 5%;
-  left: 10%;
-  width: 100%;
-  height: 100%;
+  left: 15%;
+  width: 800px;
+  height: 800px;
 `;
+
 export default ViewReportScore;

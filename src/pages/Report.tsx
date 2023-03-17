@@ -27,7 +27,7 @@ const rows = [
 
 export default function BasicTable() {
   const [open, setOpen] = useState(false);
-  console.log(open);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -53,8 +53,8 @@ export default function BasicTable() {
               </TableCell>
               <TableCell align="center">{row.date}</TableCell>
               <TableCell align="right">
-                <ReportBtn open={open} setOpen={setOpen} />
-                {open ? <ViewReportScore /> : null};
+                <ReportBtn setOpen={setOpen}/>
+                <ViewReportScore open={open} setOpen={setOpen} />
               </TableCell>
             </TableRow>
           ))}

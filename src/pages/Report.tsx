@@ -8,28 +8,9 @@ import {
   TableHead,
   TableRow,
   Paper,
-  Box,
-  Button,
-  Typography,
-  Modal,
 } from "@mui/material";
 
-import ReportBtn from "../components/Report/ReportBtn";
-import ViewReportScore from "../components/Report/ViewReportScore";
 import ReportModal from "../components/Report/ReportModal";
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  height: 600,
-  bgcolor: "background.paper",
-  border: "1px solid #000",
-  boxShadow: 20,
-  p: 3,
-};
 
 function createData(name: string, date: string) {
   return { name, date };
@@ -70,7 +51,7 @@ export default function BasicTable() {
                 </TableCell>
                 <TableCell align="center">{row.date}</TableCell>
                 <TableCell align="right">
-                  <ReportModal/>
+                  <ReportModal name={row.name} score={row.date} />
                 </TableCell>
               </TableRow>
             ))}

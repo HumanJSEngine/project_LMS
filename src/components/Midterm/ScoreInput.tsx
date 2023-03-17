@@ -18,7 +18,7 @@ export const ScoreInput = ({ score }: ScoreInputProps) => {
       name="score"
       value={inputValue}
       onChange={handleInputChange}
-      style={{ width: "40px" }}
+      style={{ width: "30px" }}
     />
   );
 };

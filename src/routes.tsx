@@ -99,7 +99,6 @@ export const routerData: IRoute[] = [
       <MyClassLayout>
           element: <Report />,
       </MyClassLayout>
-    ),
     withAuth: true,
     authType: "professor",
   },

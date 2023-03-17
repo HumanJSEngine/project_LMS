@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,43 +7,36 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import ViewReportScoreBtn from "./ViewReportScoreBtn";
 
-function createData(
-  name: string,
-  calories: number,
-  fat: number,
-  carbs: number,
-  protein: number,
-) {
-  return { name, calories, fat, carbs, protein };
+function createData(name: string, score: number) {
+  return { name, score };
 }
 
 const rows = [
-  createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-  createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-  createData("Eclair", 262, 16.0, 24, 6.0),
-  createData("Cupcake", 305, 3.7, 67, 4.3),
-  createData("Gingerbread", 356, 16.0, 49, 3.9),
+  createData("Frozen yoghurt", 159),
+  createData("Ice cream sandwich", 237),
+  createData("Eclair", 262),
+  createData("Cupcake", 305),
+  createData("Gingerbread", 356),
 ];
 
 const ViewReportScore = ({ open, setOpen }) => {
+  const [viewScore, setViewScore] = useState(false);
   return (
     <>
       {open ? (
         <Box>
           <TableContainer component={Paper}>
             <Table
-              sx={{ minWidth: 650 }}
+              sx={{ minWidth: 550 }}
               size="small"
               aria-label="a dense table"
             >
               <TableHead>
                 <TableRow>
-                  <TableCell>Dessert (100g serving)</TableCell>
-                  <TableCell align="right">Calories</TableCell>
-                  <TableCell align="right">Fat&nbsp;(g)</TableCell>
-                  <TableCell align="right">Carbs&nbsp;(g)</TableCell>
-                  <TableCell align="right">Protein&nbsp;(g)</TableCell>
+                  <TableCell align="left">학생/점수</TableCell>
+                  <TableCell align="left">점수 조회</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -52,40 +45,30 @@ const ViewReportScore = ({ open, setOpen }) => {
                     key={row.name}
                     sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                   >
-                    <TableCell component="th" scope="row">
+                    <TableCell align="left" component="th" scope="row">
                       {row.name}
                     </TableCell>
-                    <TableCell align="right">{row.calories}</TableCell>
-                    <TableCell align="right">{row.fat}</TableCell>
-                    <TableCell align="right">{row.carbs}</TableCell>
-                    <TableCell align="right">{row.protein}</TableCell>
+                    <TableCell align="left" component="th" scope="row">
+                      {row.score}
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
           </TableContainer>
+          <ViewReportScoreBtn />
         </Box>
       ) : null}
     </>
   );
 };
 
-// const Background = styled.div`
-//   width: 100%;
-//   height: 100%;
-//   background: rgba(93, 90, 90, 0.8);
-//   position: fixed;
-//   top:0;
-//   left:0;
-// `;
-
 const Box = styled.div`
-  position: absolute;
-  display: flex;
-  top: 5%;
-  left: 15%;
+  position: fixed;
+  top: 20%;
+  left: 40%;
   width: 800px;
-  height: 800px;
+  height: 1000px;
 `;
 
 export default ViewReportScore;

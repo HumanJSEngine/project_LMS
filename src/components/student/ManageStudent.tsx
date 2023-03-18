@@ -62,7 +62,8 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
     getScoreData();
   }, [testdata]);
 
-  const editScore = (id: number | "final") => {
+  const editScore = (id: number | "final", e?: React.MouseEvent) => {
+    e?.preventDefault();
     if (scoreList != null) {
       if (id === "final") {
         const finalScoreEditable = !scoreList.finalScoreEditable;
@@ -90,6 +91,37 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
     id: number | "final",
   ) => {
     e.preventDefault();
+    const scoreData = new FormData(e.currentTarget);
+    if (scoreList !== null) {
+      if (typeof id === "number") {
+        const list = scoreList.list.map(item => {
+          if (item.scoreCateSeq === id) {
+            if ("attendCount" in item) {
+              return {
+                ...item,
+                attendCount: parseInt(scoreData.get("score") as string),
+              };
+            } else if ("score" in item) {
+              return {
+                ...item,
+                score: parseInt(scoreData.get("score") as string),
+              };
+            }
+          }
+          return { ...item };
+        });
+        setScoreList({
+          ...scoreList,
+          list,
+        });
+      } else if (id === "final") {
+        setScoreList({
+          ...scoreList,
+          finalScore: scoreData.get("finalScore") as string,
+        });
+      }
+      editScore(id);
+    }
   };
   return (
     <Box>
@@ -114,6 +146,7 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
               {"attendCount" in item ? (
                 <>
                   <TextField
+                    name="score"
                     variant="standard"
                     style={{ width: "50%" }}
                     disabled={!item.editable}
@@ -122,6 +155,7 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
                 </>
               ) : (
                 <TextField
+                  name="score"
                   variant="standard"
                   disabled={!item.editable}
                   defaultValue={item.score}
@@ -136,7 +170,7 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
                   color="primary"
                   variant="contained"
                   type="button"
-                  onClick={() => editScore(item.scoreCateSeq)}
+                  onClick={e => editScore(item.scoreCateSeq, e)}
                 >
                   수정
                 </CustomButton>
@@ -148,6 +182,7 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
           <form className="info-box" onSubmit={e => confirmScore(e, "final")}>
             <p className="info-name">최종성적</p>
             <TextField
+              name="finalScore"
               variant="standard"
               disabled={!scoreList.finalScoreEditable}
               defaultValue={scoreList.finalScore}
@@ -161,7 +196,7 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
                 color="primary"
                 variant="contained"
                 type="button"
-                onClick={() => editScore("final")}
+                onClick={e => editScore("final", e)}
               >
                 수정
               </CustomButton>

@@ -7,6 +7,7 @@ import Finterm from "./pages/Finterm";
 import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
 import MySchedule from "./pages/MySchedule";
+import LastResult from "./pages/LastResult";
 import Setting from "./pages/Setting";
 import Student from "./pages/Student";
 import MyClassLayout from "./components/myclass/MyClassLayout";
@@ -109,7 +110,7 @@ export const routerData: IRoute[] = [
     path: "/myclass/:classid/grade/total",
     element: (
       <MyClassLayout>
-        <Report />
+        <LastResult />
       </MyClassLayout>
     ),
     withAuth: true,

@@ -1,9 +1,17 @@
-import React from 'react'
-
+import React, { useState } from "react";
+import styled from "@emotion/styled/types/base";
+import AttendLayout from "../components/Attend/AttendLayout";
+import LastResultView from "../components/LastResult/LastResultView";
+import LastResultInput from "../components/LastResult/LastResultInput";
 const LastResult = () => {
-  return (
-    <div>LastResult</div>
-  )
-}
+  const [swap, setSwap] = useState(false);
 
-export default LastResult
+  return (
+    <AttendLayout>
+      {swap ? <LastResultView /> : <LastResultInput />}
+      <button onClick={() => setSwap(prev => !prev)}>입력</button>
+    </AttendLayout>
+  );
+};
+
+export default LastResult;

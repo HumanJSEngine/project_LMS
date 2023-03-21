@@ -6,13 +6,28 @@ export interface IStudent {
   stuSubject: string;
 }
 
+export type finalScore =
+  | "A+"
+  | "A0"
+  | "A-"
+  | "B+"
+  | "B0"
+  | "B-"
+  | "C+"
+  | "C0"
+  | "C-"
+  | "D+"
+  | "D0"
+  | "D-"
+  | "F";
+
 export interface IScoreResponse {
   stuId: string;
   stuName: string;
   stuGrade: number;
   stuSubject: string;
   list: Array<IScoreItemAttend | IScoreItemScore>;
-  finalScore: string;
+  finalScore: finalScore;
 }
 
 interface IScoreItem {

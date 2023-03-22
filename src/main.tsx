@@ -10,15 +10,20 @@ import GlobalStyle from "./styles/GlobalStyle";
 import theme from "./styles/Theme";
 import { ThemeProvider } from "@mui/material";
 // import { ScrollToTop } from "./components/ui/ScrollToTop";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const persistor = persistStore(store);
+
+const queryClient = new QueryClient();
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <App />
+        <QueryClientProvider client={queryClient}>
+          <App />
+        </QueryClientProvider>
       </ThemeProvider>
     </PersistGate>
   </Provider>,

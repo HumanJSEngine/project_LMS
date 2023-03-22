@@ -40,8 +40,8 @@ const appointments: AppointmentModel[] = [
     type: "work3",
   },
   {
-    startDate: "2023-03-15T11:30",
-    endDate: "2023-03-15T13:00",
+    startDate: "2023-03-15T11:30:00",
+    endDate: "2023-03-15T13:00:00",
     title: "C언어",
     type: "work2",
   },

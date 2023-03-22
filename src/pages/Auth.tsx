@@ -67,8 +67,7 @@ const Auth = () => {
 };
 
 const Box = styled.div`
-  margin: 0 auto;
-  margin-top: 200px;
+  margin: 200px auto 0;
   width: 296px;
 `;
 

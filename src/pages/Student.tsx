@@ -7,7 +7,7 @@ import {
   TableCell,
   TableContainer,
   TableHead,
-  TablePagination,
+  // TablePagination,
   TableRow,
 } from "@mui/material";
 import React, { useState } from "react";
@@ -18,6 +18,7 @@ import colors from "../styles/palette";
 import { type IStudent } from "../types/Student";
 import { useQuery } from "@tanstack/react-query";
 import { getStudentInClass } from "../api/classApi";
+import { useParams } from "react-router-dom";
 
 // const studentList: IStudent[] = [
 //   {
@@ -37,7 +38,7 @@ import { getStudentInClass } from "../api/classApi";
 // ];
 
 const Student = () => {
-  const [classId] = useState<number>(1);
+  const { classid } = useParams();
   const [open, setOpen] = useState<boolean>(false);
   // const [page, setPage] = useState<number>(0);
   // const [rowsPerPage, setRowsPerPage] = useState<number>(1);
@@ -58,9 +59,12 @@ const Student = () => {
     handleOpen();
   };
   const { data, isLoading, error } = useQuery(
-    ["studentList", classId],
-    async (): Promise<IStudent[]> => {
-      return await getStudentInClass(classId);
+    ["studentList", classid],
+    async (): Promise<IStudent[] | null> => {
+      if (classid != null) {
+        return await getStudentInClass(parseInt(classid));
+      }
+      return null;
     },
   );
   return (

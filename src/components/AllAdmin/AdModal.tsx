@@ -11,7 +11,8 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { TextField } from "@mui/material";
 import CustomButton from "../common/CustomButton";
-const AdModal = () => {
+import axios from "axios";
+const AdModal = ({ liSeq }) => {
   // 모달
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -30,12 +31,12 @@ const AdModal = () => {
   };
 
   // 토글버튼
-  const [alignment, setAlignment] = useState<string | null>("상대");
+  const [alignment, setAlignment] = useState<number | null>(1);
   console.log(alignment);
 
   const handleAlignment = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
+    newAlignment: number | null,
   ) => {
     setAlignment(newAlignment);
   };
@@ -43,7 +44,16 @@ const AdModal = () => {
   const [all, setAll] = useState();
 
   // 저장버튼
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    const body = {
+      liEvaluationType: value,
+    };
+
+    await axios.post(
+      `http://192.168.0.183:8520/api/stf/lectures/${liSeq}`,
+      body,
+    );
+
     if (window.confirm("저장하시겠습니까?")) {
       alert("저장하였습니다.");
     } else {
@@ -63,6 +73,7 @@ const AdModal = () => {
     report: 0,
     final: 0,
   };
+  const [value, setValue] = useState(1);
   const [val, setVal] = React.useState(initVal);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -96,16 +107,18 @@ const AdModal = () => {
                 aria-label="text alignment"
               >
                 <ToggleButton
-                  value="상대"
+                  value={1}
                   aria-label="left aligned"
                   color="primary"
+                  onClick={setValue(1)}
                 >
                   <span>상대</span>
                 </ToggleButton>
                 <ToggleButton
-                  value="절대"
+                  value={2}
                   aria-label="centered"
                   color="primary"
+                  onClick={setValue(2)}
                 >
                   <span>절대</span>
                 </ToggleButton>

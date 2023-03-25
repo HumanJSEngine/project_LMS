@@ -34,7 +34,7 @@ interface FListsProps {
   totalScore: number;
 }
 
-export default function StickyHeadTable({ FLists }: FListsProps) {
+export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -46,6 +46,7 @@ export default function StickyHeadTable({ FLists }: FListsProps) {
                 {item.name}
               </TableCell>
             ))}
+            <TableCell>최종성적</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -62,6 +63,9 @@ export default function StickyHeadTable({ FLists }: FListsProps) {
                   {item.score} / {item.totalMaxScore}
                 </TableCell>
               ))}
+              <TableCell component="th" scope="row">
+                {item.grade}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

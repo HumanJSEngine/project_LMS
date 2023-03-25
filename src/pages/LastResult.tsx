@@ -7,36 +7,14 @@ import LastResultBtn from "../components/LastResult/LastResultBtn";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 
-interface ScoreListProps {
-  explanation: string;
-  lecture: string;
-  maxScore: number;
-  name: string;
-  score: number;
-  seq: number;
-  student: string;
-  totalMaxScore: number;
-}
 
-interface FListsProps {
-  grade: string;
-  rank: number;
-  scoreList: ScoreListProps[];
-  studentCode: string;
-  studentName: string;
-  totalMaxScore: number;
-  totalScore: number;
-}
 const LastResult = () => {
-  const [swap, setSwap] = useState(true);
+  const [swap, setSwap] = useState(false);
 
-  const confirmScore = () => {
-    alert("성적이 저장됨");
-  };
 
   const getFinalLists = async () => {
     return await axios
-      .get("http://192.168.0.183:8520/api/final/BAC001-00")
+      .get("http://192.168.0.183:8520/api/final/BAC001-01")
       .then(res => res.data);
   };
   const {
@@ -50,7 +28,7 @@ const LastResult = () => {
   if (status === "loading") return <h1>Loading...</h1>;
   if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
 
-  console.log(FLists[0]);
+  console.log(FLists);
 
   return (
     <AttendLayout>

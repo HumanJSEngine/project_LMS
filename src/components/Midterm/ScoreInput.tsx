@@ -9,7 +9,8 @@ export const ScoreInput = ({ score }: ScoreInputProps) => {
   const handleInputChange = () => {
     setInputValue(inputRef.current.value);
   };
-  console.log(inputRef);
+
+  console.log(inputValue);
 
   return (
     <input
@@ -18,7 +19,7 @@ export const ScoreInput = ({ score }: ScoreInputProps) => {
       name="score"
       value={inputValue}
       onChange={handleInputChange}
-      style={{ width: "30px" }}
+      style={{ width: "25px" }}
     />
   );
 };

@@ -8,6 +8,7 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
+import LastSelectBox from "./LastSelectBox";
 
 interface ScoreListProps {
   explanation: string;
@@ -42,7 +43,7 @@ export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
                 {item.name}
               </TableCell>
             ))}
-            <TableCell>최종</TableCell>
+            <TableCell>최종성적</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -60,6 +61,7 @@ export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
                 </TableCell>
               ))}
               <TableCell component="th" scope="row">
+                <LastSelectBox grade={item.grade}/>
                 {item.grade}
               </TableCell>
             </TableRow>

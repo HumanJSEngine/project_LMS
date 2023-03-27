@@ -2,13 +2,35 @@ import styled from "@emotion/styled";
 import colors from "../../styles/palette";
 import { IoCloseOutline } from "react-icons/io5";
 import CustomButton from "../common/CustomButton";
-import { TextField } from "@mui/material";
+import { MenuItem, Select, TextField } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import { type IScoreManage, type IScoreResponse } from "../../types/Student";
+import {
+  type finalScore,
+  type IScoreManage,
+  type IScoreResponse,
+  type IStudent,
+} from "../../types/Student";
 
 interface ManageStudentProps {
   closeModal: () => void;
+  studentInfo: IStudent | null;
 }
+
+const finalScoreList: finalScore[] = [
+  "A+",
+  "A0",
+  "A-",
+  "B+",
+  "B0",
+  "B-",
+  "C+",
+  "C0",
+  "C-",
+  "D+",
+  "D0",
+  "D-",
+  "F",
+];
 
 const testdata: IScoreResponse = {
   stuId: "20201025",
@@ -20,7 +42,7 @@ const testdata: IScoreResponse = {
       scoreCateSeq: 1,
       scoreCateName: "출석",
       attendCount: 10,
-      attendCountTotal: 10,
+      attendCountTotal: 20,
     },
     {
       scoreCateSeq: 2,
@@ -41,7 +63,7 @@ const testdata: IScoreResponse = {
   finalScore: "B0",
 };
 
-const ManageStudent = ({ closeModal }: ManageStudentProps) => {
+const ManageStudent = ({ closeModal, studentInfo }: ManageStudentProps) => {
   const [scoreList, setScoreList] = useState<IScoreManage | null>(null);
   const getScoreData = useCallback(() => {
     const res = testdata;
@@ -117,7 +139,7 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
       } else if (id === "final") {
         setScoreList({
           ...scoreList,
-          finalScore: scoreData.get("finalScore") as string,
+          finalScore: scoreData.get("finalScore") as finalScore,
         });
       }
       editScore(id);
@@ -128,7 +150,8 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
       <Header>
         <p className="student-name">
           {scoreList != null &&
-            `${scoreList.stuName}(${scoreList.stuId}/${scoreList.stuSubject})`}
+            studentInfo !== null &&
+            `${studentInfo.stuName} (${studentInfo.stuId}/${studentInfo.stuSubject})`}
         </p>
         <button className="close-button" onClick={closeModal}>
           <IoCloseOutline size={32} />
@@ -146,19 +169,31 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
               {"attendCount" in item ? (
                 <>
                   <TextField
+                    type="number"
                     name="score"
                     variant="standard"
-                    style={{ width: "50%" }}
                     disabled={!item.editable}
                     defaultValue={item.attendCount}
+                    style={{ width: "calc(30% - 25px)" }}
+                  />
+                  /
+                  <TextField
+                    type="number"
+                    name="score"
+                    variant="standard"
+                    disabled={true}
+                    defaultValue={item.attendCountTotal}
+                    style={{ width: "calc(30% - 25px)" }}
                   />
                 </>
               ) : (
                 <TextField
+                  type="number"
                   name="score"
                   variant="standard"
                   disabled={!item.editable}
                   defaultValue={item.score}
+                  style={{ width: "60%" }}
                 />
               )}
               {item.editable ? (
@@ -181,12 +216,19 @@ const ManageStudent = ({ closeModal }: ManageStudentProps) => {
         {scoreList != null && (
           <form className="info-box" onSubmit={e => confirmScore(e, "final")}>
             <p className="info-name">최종성적</p>
-            <TextField
-              name="finalScore"
+            <Select
               variant="standard"
+              name="finalScore"
               disabled={!scoreList.finalScoreEditable}
               defaultValue={scoreList.finalScore}
-            />
+              style={{ width: "60%" }}
+            >
+              {finalScoreList.map(finalScore => (
+                <MenuItem key={finalScore} value={finalScore}>
+                  {finalScore}
+                </MenuItem>
+              ))}
+            </Select>
             {scoreList.finalScoreEditable ? (
               <CustomButton color="primary" variant="contained" type="submit">
                 완료
@@ -212,7 +254,7 @@ const Box = styled.div`
   position: absolute;
   left: 50%;
   top: 50%;
-  width: auto;
+  width: 460px;
   height: auto;
   background: ${colors.white};
   transform: translate(-50%, -50%);

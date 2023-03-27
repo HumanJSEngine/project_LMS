@@ -1,15 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "@emotion/styled";
 import CustomToggleButton from "../components/common/CustomToggleButton";
 import CustomToggleButtonGroup from "../components/common/CustomToggleButtonGroup";
 import CustomTextField from "../components/common/CustomTextField";
 import CustomButton from "../components/common/CustomButton";
 import colors from "../styles/palette";
+import { type UserType } from "../routes";
 
 const Auth = () => {
+  const [userType, setUserType] = useState<UserType>("student");
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
+  };
+
+  const changeLoginUserType = (
+    e: React.MouseEvent<HTMLElement>,
+    newValue: UserType,
+  ) => {
+    setUserType(newValue);
   };
 
   return (
@@ -17,18 +26,18 @@ const Auth = () => {
       <AuthForm onSubmit={onSubmitHandler}>
         <CustomToggleButtonGroup
           color="primary"
-          // value={alignment}
+          value={userType}
           exclusive
-          // onChange={handleChange}
+          onChange={changeLoginUserType}
           aria-label="user-type"
         >
-          <CustomToggleButton color="primary" value="web" selected={false}>
+          <CustomToggleButton color="primary" value="student">
             학생
           </CustomToggleButton>
-          <CustomToggleButton color="primary" value="android" selected={false}>
+          <CustomToggleButton color="primary" value="professor">
             교수
           </CustomToggleButton>
-          <CustomToggleButton color="primary" value="ios" selected={true}>
+          <CustomToggleButton color="primary" value="staff">
             교직원
           </CustomToggleButton>
         </CustomToggleButtonGroup>
@@ -58,8 +67,7 @@ const Auth = () => {
 };
 
 const Box = styled.div`
-  margin: 0 auto;
-  margin-top: 200px;
+  margin: 200px auto 0;
   width: 296px;
 `;
 

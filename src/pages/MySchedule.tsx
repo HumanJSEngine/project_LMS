@@ -28,7 +28,7 @@ const MySchedule = () => {
     const fetchData = async () => {
       try {
         const result = await axios.get(
-          "http://192.168.0.183:8520/api/timetable/6",
+          "http://192.168.0.183:8520/api/timetable/1/1",
         );
         setData(result.data.list);
       } catch (err) {
@@ -44,8 +44,10 @@ const MySchedule = () => {
       fieldName: "type",
       title: "Type",
       instances: [
-        { id: "BAC001-01", text: "Work0", color: "#CF000F" },
-        { id: "FRO001-01", text: "Work1", color: "#A60000" },
+        { id: "BAC001-01", text: "Class0", color: "#CF000F" },
+        { id: "BAC001-02", text: "Class1", color: "#c84444" },
+        { id: "FRO001-01", text: "Class2", color: "#A60000" },
+        { id: "UXI001-01", text: "Class3", color: "#7f1d1d" },
       ],
     },
   ];

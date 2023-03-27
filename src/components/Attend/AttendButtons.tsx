@@ -15,9 +15,7 @@ const AttendButtons = ({ attend }: AttendButtonsType) => {
   return (
     <BtnWrapper>
       <AttendBtn
-        variant={
-          (change ? "contained" : null)
-        }
+        variant={change ? "contained" : null}
         onClick={() => setChange(prev => !prev)}
       >
         {attend ? "출석" : "출석"}

@@ -11,12 +11,12 @@ import { useQuery } from "@tanstack/react-query";
 const LastResult = () => {
   const [swap, setSwap] = useState(false);
 
-
   const getFinalLists = async () => {
     return await axios
       .get("http://192.168.0.183:8520/api/final/BAC001-01")
       .then(res => res.data);
   };
+
   const {
     status,
     error,
@@ -28,7 +28,7 @@ const LastResult = () => {
   if (status === "loading") return <h1>Loading...</h1>;
   if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
 
-  console.log(FLists);
+  console.log('리스트 조회', FLists);
 
   return (
     <AttendLayout>

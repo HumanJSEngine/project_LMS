@@ -32,6 +32,8 @@ interface FListsProps {
 }
 
 export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
+  console.log("리스트값", FLists);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -61,8 +63,11 @@ export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
                 </TableCell>
               ))}
               <TableCell component="th" scope="row">
-                <LastSelectBox grade={item.grade}/>
-                {item.grade}
+                <LastSelectBox
+                  scoreList={item.scoreList}
+                  grade={item.grade}
+                  studentCode={item.studentCode}
+                />
               </TableCell>
             </TableRow>
           ))}

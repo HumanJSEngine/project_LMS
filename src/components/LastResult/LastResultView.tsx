@@ -1,7 +1,5 @@
 import * as React from "react";
-
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
+import { type FListsProps } from "../../types/LastResult";
 
 import {
   Paper,
@@ -12,27 +10,6 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-
-interface ScoreListProps {
-  explanation: string;
-  lecture: string;
-  maxScore: number;
-  name: string;
-  score: number;
-  seq: number;
-  student: string;
-  totalMaxScore: number;
-}
-
-interface FListsProps {
-  grade: string;
-  rank: number;
-  scoreList: ScoreListProps[];
-  studentCode: string;
-  studentName: string;
-  totalMaxScore: number;
-  totalScore: number;
-}
 
 export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
   return (

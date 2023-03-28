@@ -49,7 +49,6 @@ const LastSelectBox = ({
   studentCode,
 }: LastSelectBoxProps) => {
   const [choiceValue, setChoiceValue] = React.useState("");
-  console.log("등급", grade);
 
   const handleChange = e => {
     console.log(e.target.value);
@@ -61,12 +60,12 @@ const LastSelectBox = ({
   console.log("학번", studentCode);
   console.log("선택등급", choiceValue);
 
-  
   const onSubmit = event => {
     event.preventDefault();
     console.log(choiceValue);
     const result = setLastResult(lectureNum, studentCode, choiceValue);
-    console.log(result);
+
+    console.log(result.then(value => alert(value.message)));
   };
 
   return (

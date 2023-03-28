@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import styled from "@emotion/styled/types/base";
 import AttendLayout from "../components/Attend/AttendLayout";
 import LastResultView from "../components/LastResult/LastResultView";
 import LastResultInput from "../components/LastResult/LastResultInput";

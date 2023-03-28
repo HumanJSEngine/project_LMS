@@ -27,14 +27,7 @@ const AdminClassEd = () => {
 
   if (status === "loading") return <h1>Loading...</h1>;
   if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
-  console.log("목록", list);
-
-  console.log(
-    "리스트",
-    list.map(item => item.list),
-  );
-
-  // const r = list.map(item => item.list.forEach(ele => console.log(ele)));
+  //  console.log("목록", list);
 
   return (
     <Container>
@@ -53,7 +46,7 @@ const AdminClassEd = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {list.map(item => (
+            {list?.map(item => (
               <TableRow
                 key={item.liSeq}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
@@ -74,10 +67,13 @@ const AdminClassEd = () => {
                 <TableCell align="center">
                   {item.list.length > 0 && item.list[3].scoreMax}
                 </TableCell>
-
                 <TableCell align="center">{item.evaluation}</TableCell>
                 <TableCell align="center">
-                  <AdModal liSeq={item.liSeq} />
+                  <AdModal
+                    liSeq={item.liSeq}
+                    name={item.name}
+                    evaluation={item.evaluation}
+                  />
                 </TableCell>
               </TableRow>
             ))}
@@ -91,8 +87,5 @@ const AdminClassEd = () => {
 const Container = styled.div`
   margin-top: 100px;
 `;
-const ModalButton = styled.button`
-  border: none;
-  background: none;
-`;
+
 export default AdminClassEd;

@@ -7,11 +7,13 @@ import Finterm from "./pages/Finterm";
 import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
 import MySchedule from "./pages/MySchedule";
+import LastResult from "./pages/LastResult";
 import Setting from "./pages/Setting";
 import Student from "./pages/Student";
 import MyClassLayout from "./components/myclass/MyClassLayout";
 import { type UserType } from "./types/User";
 import React from "react";
+import EditClass from "./pages/EditClass";
 type MenuDepthType = "main";
 
 interface IRoute {
@@ -109,7 +111,7 @@ export const routerData: IRoute[] = [
     path: "/myclass/:classid/grade/total",
     element: (
       <MyClassLayout>
-        <Report />
+        <LastResult />
       </MyClassLayout>
     ),
     withAuth: true,
@@ -142,7 +144,7 @@ export const routerData: IRoute[] = [
   {
     name: "강의 수정",
     path: "/editclass",
-    element: <Auth />,
+    element: <EditClass />,
     withAuth: true,
     menuDepth: "main",
     authType: "staff",

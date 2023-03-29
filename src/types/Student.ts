@@ -19,23 +19,17 @@ export type finalScore =
   | "D+"
   | "D0"
   | "D-"
-  | "F";
-
-export interface IScoreResponse {
-  stuId: string;
-  stuName: string;
-  stuGrade: number;
-  stuSubject: string;
-  list: Array<IScoreItemAttend | IScoreItemScore>;
-  finalScore: finalScore;
-}
+  | "F"
+  | "미평가";
 
 interface IScoreItem {
   scoreCateSeq: number;
   scoreCateName: string;
+  score: number;
+  maxScore: number;
 }
 
-interface IScoreItemAttend extends IScoreItem {
+interface IScoreItemAttend {
   attendCount: number;
   attendCountTotal: number;
 }
@@ -44,15 +38,16 @@ interface IScoreItemScore extends IScoreItem {
   score: number;
 }
 
-interface ISCoreManageAttend extends IScoreItemAttend {
+interface IScoreManageScore extends IScoreItemScore {
   editable: boolean;
 }
 
-interface ISCoreManageScore extends IScoreItemScore {
-  editable: boolean;
-}
-
-export interface IScoreManage extends IScoreResponse {
-  list: Array<ISCoreManageAttend | ISCoreManageScore>;
-  finalScoreEditable: boolean;
+export interface IScoreManage {
+  stuId: string;
+  stuName: string;
+  stuGrade: number;
+  stuSubject: string;
+  attendList: IScoreItemAttend[];
+  scoreList: IScoreManageScore[];
+  finalScore: finalScore;
 }

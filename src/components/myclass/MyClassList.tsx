@@ -2,15 +2,20 @@ import styled from "@emotion/styled";
 import MyClassItem from "./MyClassItem";
 import { useQuery } from "@tanstack/react-query";
 import { getMyClass } from "../../api/classApi";
-import { useState } from "react";
 import { type IClass } from "../../types/Class";
+import { useRecoilValue } from "recoil";
+import { type IUser } from "../../types/User";
+import { userAtom } from "../../store/user/atom";
 
 const MyClassList = () => {
-  const [proNum] = useState<number>(6);
+  const { seq } = useRecoilValue<IUser>(userAtom);
   const { data, isLoading, error } = useQuery(
-    ["studentList", proNum],
-    async (): Promise<IClass[]> => {
-      return await getMyClass(proNum);
+    ["studentList", seq],
+    async (): Promise<IClass[] | null> => {
+      if (seq != null) {
+        return await getMyClass(seq);
+      }
+      return null;
     },
   );
   return (

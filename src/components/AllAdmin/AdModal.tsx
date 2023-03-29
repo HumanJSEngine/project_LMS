@@ -10,8 +10,12 @@ import Modal from "@mui/material/Modal";
 import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { TextField } from "@mui/material";
-import CustomButton from "../common/CustomButton";
-const AdModal = () => {
+import EditButton from "../common/EditButton";
+
+// axios
+import axios from "axios";
+
+const AdModal = ({ liSeq, name, evaluation }) => {
   // 모달
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
@@ -30,46 +34,90 @@ const AdModal = () => {
   };
 
   // 토글버튼
-  const [alignment, setAlignment] = useState<string | null>("상대");
-  console.log(alignment);
+  console.log(evaluation);
 
+  const [alignment, setAlignment] = useState<number | null>(1);
   const handleAlignment = (
-    event: React.MouseEvent<HTMLElement>,
-    newAlignment: string | null,
+    e: React.MouseEvent<HTMLElement>,
+    newAlignment: number,
   ) => {
     setAlignment(newAlignment);
-  };
-
-  const [all, setAll] = useState();
-
-  // 저장버튼
-  const handleSubmit = () => {
-    if (window.confirm("저장하시겠습니까?")) {
+    e.preventDefault();
+    const body = {
+      liEvaluationType: newAlignment,
+    };
+    if (window.confirm("정말 수정하시겠습니까?")) {
+      axios
+        .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}`, body)
+        .then(res => console.log(res.data))
+        .catch(err => {
+          console.log(err);
+        });
       alert("저장하였습니다.");
     } else {
-      alert("취소하였습니다");
+      alert("취소하였습니다.");
     }
   };
 
-  type InnputState = {
-    attendance: number;
-    midterm: number;
-    report: number;
-    final: number;
-  };
-  const initVal: InnputState = {
+  const initVal = {
     attendance: 0,
-    midterm: 0,
-    report: 0,
+    middle: 0,
     final: 0,
+    report: 0,
   };
-  const [val, setVal] = React.useState(initVal);
+  const [val, setVal] = useState(initVal);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setVal({ ...val });
-    const total: number = val.attendance + val.midterm + val.report + val.final;
-    setAll(total);
+    const { name, value } = e.target;
+    setVal({ ...val, [name]: value });
   };
+
+  // 출석 저장
+  const attendanceFn = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    const body = {
+      maxScore: val.attendance,
+    };
+    axios
+      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/1`, body)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+  };
+
+  // 중간 저장
+  const middleFn = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    const body = {
+      maxScore: val.middle,
+    };
+    axios
+      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/2`, body)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+  };
+  // 기말 저장
+  const finalFn = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    const body = {
+      maxScore: val.final,
+    };
+    axios
+      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/3`, body)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+  };
+  // 과제 저장
+  const reportFn = (e: React.MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    const body = {
+      maxScore: val.report,
+    };
+    axios
+      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/4`, body)
+      .then(res => console.log(res.data))
+      .catch(err => console.log(err));
+  };
+
   return (
     <div>
       <Button onClick={handleOpen}>비율수정</Button>
@@ -81,14 +129,13 @@ const AdModal = () => {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6" component="h2">
-            비율수정(항목들어갈예정)
+            {name}
           </Typography>
 
           {/* 모달 폼 */}
-          <ModalForm onSubmit={handleSubmit}>
+          <ModalForm>
+            <Spam>평가방식 수정</Spam>
             <ToggleButtonBox>
-              {/* <InputBt type="button" value="상대" />
-              <InputBt type="button" value="절대" /> */}
               <ToggleButtonGroup
                 value={alignment}
                 exclusive
@@ -96,62 +143,88 @@ const AdModal = () => {
                 aria-label="text alignment"
               >
                 <ToggleButton
-                  value="상대"
+                  value={1}
                   aria-label="left aligned"
                   color="primary"
                 >
                   <span>상대</span>
                 </ToggleButton>
-                <ToggleButton
-                  value="절대"
-                  aria-label="centered"
-                  color="primary"
-                >
+                <ToggleButton value={2} aria-label="centered" color="primary">
                   <span>절대</span>
                 </ToggleButton>
               </ToggleButtonGroup>
             </ToggleButtonBox>
+            <Spam>만점 수정</Spam>
             <FlexBox>
-              <div>
-                <InputLayout>
-                  <span>출석</span>
-                  <TextField
-                    type="number"
-                    variant="standard"
-                    onChange={handleChange}
-                  />
-                </InputLayout>
-                <InputLayout>
-                  <span>중간</span>
-                  <TextField
-                    type="number"
-                    variant="standard"
-                    onChange={handleChange}
-                  />
-                </InputLayout>
-              </div>
-              <div>
-                <InputLayout>
-                  <span>과제</span>
-                  <TextField
-                    type="number"
-                    variant="standard"
-                    onChange={handleChange}
-                  />
-                </InputLayout>
-                <InputLayout>
-                  <span>기말</span>
-                  <TextField
-                    type="number"
-                    variant="standard"
-                    onChange={handleChange}
-                  />
-                </InputLayout>
-              </div>
+              <span>출석</span>
+              <BoxLayout>
+                <TextField
+                  type="number"
+                  variant="standard"
+                  onChange={handleChange}
+                  name="attendance"
+                />
+                <EditButton
+                  color="primary"
+                  variant="contained"
+                  type="button"
+                  onClick={attendanceFn}
+                >
+                  저장
+                </EditButton>
+              </BoxLayout>
+              <span>중간</span>
+              <BoxLayout>
+                <TextField
+                  type="number"
+                  variant="standard"
+                  onChange={handleChange}
+                  name="middle"
+                />
+                <EditButton
+                  color="primary"
+                  variant="contained"
+                  type="button"
+                  onClick={middleFn}
+                >
+                  저장
+                </EditButton>
+              </BoxLayout>
+              <span>과제</span>
+              <BoxLayout>
+                <TextField
+                  type="number"
+                  variant="standard"
+                  onChange={handleChange}
+                  name="report"
+                />
+                <EditButton
+                  color="primary"
+                  variant="contained"
+                  type="button"
+                  onClick={reportFn}
+                >
+                  저장
+                </EditButton>
+              </BoxLayout>
+              <span>기말</span>
+              <BoxLayout>
+                <TextField
+                  type="number"
+                  variant="standard"
+                  onChange={handleChange}
+                  name="final"
+                />
+                <EditButton
+                  color="primary"
+                  variant="contained"
+                  type="button"
+                  onClick={finalFn}
+                >
+                  저장
+                </EditButton>
+              </BoxLayout>
             </FlexBox>
-            <CustomButton color="primary" variant="contained" type="submit">
-              저장
-            </CustomButton>
           </ModalForm>
         </Box>
       </Modal>
@@ -168,14 +241,21 @@ const ToggleButtonBox = styled.div`
 
 const FlexBox = styled.div`
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 10px;
+  margin: 0 auto;
   margin-bottom: 20px;
+  width: 90%;
+`;
+const BoxLayout = styled.div`
+  display: flex;
+  item-align: center;
+  gap: 20px;
 `;
 
-const InputLayout = styled.div`
-  margin: 10px;
-  left: 30px;
+const Spam = styled.div`
+  font-size: 20px;
+  margin-bottom: 10px;
 `;
 
 export default AdModal;

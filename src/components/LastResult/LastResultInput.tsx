@@ -9,29 +9,14 @@ import {
   TableRow,
 } from "@mui/material";
 import LastSelectBox from "./LastSelectBox";
+import { type FListsProps } from "../../types/LastResult";
 
-interface ScoreListProps {
-  explanation: string;
-  lecture: string;
-  maxScore: number;
-  name: string;
-  score: number;
-  seq: number;
-  student: string;
-  totalMaxScore: number;
-}
 
-interface FListsProps {
-  grade: string;
-  rank: number;
-  scoreList: ScoreListProps[];
-  studentCode: string;
-  studentName: string;
-  totalMaxScore: number;
-  totalScore: number;
-}
+
 
 export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
+  console.log("리스트값", FLists);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -57,12 +42,15 @@ export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
               </TableCell>
               {FLists[idx].scoreList.map(item => (
                 <TableCell align="center" key={item.seq}>
-                  {item.score} / {item.totalMaxScore}
+                  {item.score} / {item.maxScore}
                 </TableCell>
               ))}
               <TableCell component="th" scope="row">
-                <LastSelectBox grade={item.grade}/>
-                {item.grade}
+                <LastSelectBox
+                  scoreList={item.scoreList}
+                  grade={item.grade}
+                  studentCode={item.studentCode}
+                />
               </TableCell>
             </TableRow>
           ))}

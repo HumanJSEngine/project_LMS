@@ -10,7 +10,6 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { ScoreInput } from "./ScoreInput";
 
-
 function createData(name: string, score: number) {
   return { name, score };
 }
@@ -31,7 +30,10 @@ const rows = [
 ];
 
 export default function CustomPaginationActionsTable() {
-
+  const onSubmit = e => {
+    e.preventDefault();
+    console.log({ score: inputRef.current.value });
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 800 }} aria-label="custom pagination table">
@@ -41,18 +43,26 @@ export default function CustomPaginationActionsTable() {
             <TableCell align="left">점수</TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row" size="medium" align="left">
-                {row.name}
-              </TableCell>
-              <TableCell component="th" size="medium" align="left">
-                <ScoreInput score={row.score} />
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
+        <form onSubmit={onSubmit}>
+          <TableBody>
+            {rows.map(row => (
+              <TableRow key={row.name}>
+                <TableCell
+                  component="th"
+                  scope="row"
+                  size="medium"
+                  align="left"
+                >
+                  {row.name}
+                </TableCell>
+                <TableCell component="th" size="medium" align="left">
+                  <ScoreInput score={row.score} />
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+          <button type="submit">성적입력</button>
+        </form>
       </Table>
     </TableContainer>
   );

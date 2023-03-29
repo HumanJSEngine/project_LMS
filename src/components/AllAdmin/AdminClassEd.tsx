@@ -1,4 +1,3 @@
-import React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -8,36 +7,28 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import AdModal from "./AdModal";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const AdminClassEd = () => {
-  const createData = (
-    name: string,
-    classcode: number,
-    professor: string,
-    attendance: number,
-    report: number,
-    midterm: number,
-    final: number,
-    rating: string,
-  ) => {
-    return {
-      name,
-      classcode,
-      professor,
-      attendance,
-      report,
-      midterm,
-      final,
-      rating,
-    };
+  const getList = async () => {
+    return await axios
+      .get("http://192.168.0.183:8520/api/stf/lectures")
+      .then(res => res.data.list);
   };
-  const rows = [
-    createData("React의 이해", 230000, "정화섭", 24, 4.0, 10, 100, "절대"),
-    createData("컴퓨터 기초 공학", 230001, "배민준", 37, 4.3, 100, 100, "상대"),
-    createData("JavaScript 기초", 230002, "윤동규", 24, 6.0, 100, 100, "상대"),
-    createData("HTML 기초", 230003, "이효정", 67, 4.3, 100, 100, "절대"),
-    createData("CSS 기초", 230004, "조준영", 49, 3.9, 100, 100, "절대"),
-  ];
+  const {
+    status,
+    error,
+    data: list,
+  } = useQuery({
+    queryKey: ["list"],
+    queryFn: getList,
+  });
+
+  if (status === "loading") return <h1>Loading...</h1>;
+  if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
+  //  console.log("목록", list);
+
   return (
     <Container>
       <TableContainer component={Paper}>
@@ -46,33 +37,43 @@ const AdminClassEd = () => {
             <TableRow>
               <TableCell>강의이름</TableCell>
               <TableCell align="center">수업코드</TableCell>
-              <TableCell align="center">교수이름</TableCell>
-              <TableCell align="center">출석반영비율</TableCell>
-              <TableCell align="center">과제반영비율</TableCell>
-              <TableCell align="center">중간반영비율</TableCell>
-              <TableCell align="center">기말반영비율</TableCell>
+              <TableCell align="center">출석</TableCell>
+              <TableCell align="center">중간시험</TableCell>
+              <TableCell align="center">기말시험</TableCell>
+              <TableCell align="center">과제</TableCell>
               <TableCell align="center">반영</TableCell>
               <TableCell align="center">수정</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
+            {list?.map(item => (
               <TableRow
-                key={row.name}
+                key={item.liSeq}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {item.name}
                 </TableCell>
-                <TableCell align="center">{row.classcode}</TableCell>
-                <TableCell align="center">{row.professor}</TableCell>
-                <TableCell align="center">{row.attendance}</TableCell>
-                <TableCell align="center">{row.report}</TableCell>
-                <TableCell align="center">{row.midterm}</TableCell>
-                <TableCell align="center">{row.final}</TableCell>
-                <TableCell align="center">{row.rating}</TableCell>
+                <TableCell align="center">{item.code}</TableCell>
                 <TableCell align="center">
-                  <AdModal />
+                  {item.list.length > 0 && item.list[0].scoreMax}
+                </TableCell>
+                <TableCell align="center">
+                  {item.list.length > 0 && item.list[1].scoreMax}
+                </TableCell>
+                <TableCell align="center">
+                  {item.list.length > 0 && item.list[2].scoreMax}
+                </TableCell>
+                <TableCell align="center">
+                  {item.list.length > 0 && item.list[3].scoreMax}
+                </TableCell>
+                <TableCell align="center">{item.evaluation}</TableCell>
+                <TableCell align="center">
+                  <AdModal
+                    liSeq={item.liSeq}
+                    name={item.name}
+                    evaluation={item.evaluation}
+                  />
                 </TableCell>
               </TableRow>
             ))}

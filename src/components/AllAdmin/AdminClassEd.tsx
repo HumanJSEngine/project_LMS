@@ -16,6 +16,7 @@ const AdminClassEd = () => {
       .get("http://192.168.0.183:8520/api/stf/lectures")
       .then(res => res.data.list);
   };
+
   const {
     status,
     error,
@@ -73,6 +74,10 @@ const AdminClassEd = () => {
                     liSeq={item.liSeq}
                     name={item.name}
                     evaluation={item.evaluation}
+                    attendance={item.list[0].scoreMax}
+                    middle={item.list[1].scoreMax}
+                    final={item.list[2].scoreMax}
+                    report={item.list[3].scoreMax}
                   />
                 </TableCell>
               </TableRow>

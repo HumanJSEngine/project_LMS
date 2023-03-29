@@ -1,17 +1,18 @@
 import styled from "@emotion/styled";
-import { type PathData, routerData, type UserType } from "../../../routes";
+import { type PathData, routerData } from "../../../routes";
 import { font } from "../../../styles/fonts";
 import colors from "../../../styles/palette";
+import { type IUser } from "../../../types/User";
 import MainNav from "./MainNav";
 import SettingNav from "./SettingNav";
 
 interface HeaderProps {
-  userType: UserType;
+  userInfo: IUser;
 }
 
-const Header = ({ userType }: HeaderProps) => {
+const Header = ({ userInfo }: HeaderProps) => {
   const NavList: PathData[] = routerData.reduce<PathData[]>((prev, router) => {
-    if (router.authType === userType && router.menuDepth === "main") {
+    if (router.authType === userInfo.type && router.menuDepth === "main") {
       return [
         ...prev,
         {
@@ -30,13 +31,15 @@ const Header = ({ userType }: HeaderProps) => {
         </div>
         <div className="profile-info">
           <p>
-            {userType === "professor"
+            {userInfo.type === "professor"
               ? "교수"
-              : userType === "staff"
+              : userInfo.type === "staff"
               ? "교직원"
               : "학생"}
           </p>
-          <p>Name (0000000)</p>
+          <p>
+            {userInfo.name} ({userInfo.id})
+          </p>
         </div>
       </ProfileBox>
       <MainNav navList={NavList} />

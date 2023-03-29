@@ -1,17 +1,19 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { type UserType } from "../../routes";
 import Header from "./Header/Header";
+import { useRecoilValue } from "recoil";
+import { type IUser } from "../../types/User";
+import { userAtom } from "../../store/user/atom";
+import React from "react";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const [userType] = useState<UserType>("professor");
+  const userInfo = useRecoilValue<IUser>(userAtom);
   return (
     <Page>
-      <Header userType={userType} />
+      <Header userInfo={userInfo} />
       <div className="content">{children}</div>
     </Page>
   );

@@ -10,7 +10,8 @@ import MySchedule from "./pages/MySchedule";
 import Setting from "./pages/Setting";
 import Student from "./pages/Student";
 import MyClassLayout from "./components/myclass/MyClassLayout";
-export type UserType = "student" | "professor" | "staff" | "all";
+import { type UserType } from "./types/User";
+import React from "react";
 type MenuDepthType = "main";
 
 interface IRoute {
@@ -34,7 +35,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "내 강의 시간표",
-    path: "/mychedule",
+    path: "/myschedule",
     element: <MySchedule />,
     withAuth: true,
     menuDepth: "main",

@@ -13,7 +13,9 @@ interface MyClassLayoutProps {
 
 const MyClassLayout = ({ children }: MyClassLayoutProps) => {
   const pathname = location.pathname;
-  const { classid } = useParams();
+  const { classInfo } = useParams();
+  const classid = classInfo?.split("_")[0];
+  const classname = classInfo?.split("_")[1];
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleMenu = () => {
     setIsMenuOpen(prev => !prev);
@@ -26,7 +28,7 @@ const MyClassLayout = ({ children }: MyClassLayoutProps) => {
             <MyClassMenuItem>
               <Link to={`/myclass`}>
                 <IoIosArrowBack />
-                JAVA
+                {classname}
               </Link>
             </MyClassMenuItem>
             <MyClassMenuItem

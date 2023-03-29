@@ -51,7 +51,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "수강생 관리",
-    path: "/myclass/:classid/student",
+    path: "/myclass/:classInfo/student",
     element: (
       <MyClassLayout>
         <Student />
@@ -62,7 +62,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 출결",
-    path: "/myclass/:classid/grade/attend",
+    path: "/myclass/:classInfo/grade/attend",
     element: (
       <MyClassLayout>
         <Attend />
@@ -73,7 +73,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 중간시험",
-    path: "/myclass/:classid/grade/midterm",
+    path: "/myclass/:classInfo/grade/midterm",
     element: (
       <MyClassLayout>
         <Midterm />
@@ -84,7 +84,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 기말시험",
-    path: "/myclass/:classid/grade/finterm",
+    path: "/myclass/:classInfo/grade/finterm",
     element: (
       <MyClassLayout>
         <Finterm />
@@ -95,7 +95,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 과제",
-    path: "/myclass/:classid/grade/report",
+    path: "/myclass/:classInfo/grade/report",
     element: (
       <MyClassLayout>
         <Report />
@@ -106,7 +106,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 최종성적",
-    path: "/myclass/:classid/grade/total",
+    path: "/myclass/:classInfo/grade/total",
     element: (
       <MyClassLayout>
         <Report />

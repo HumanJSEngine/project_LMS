@@ -16,5 +16,3 @@
 
 [![My Skills](https://skillicons.dev/icons?i=github,source)](https://skillicons.dev)
 
-
-[![My Skills](https://skillicons.dev/icons?i=vscode,dbeaver,git,gradle,java,mysql,spring&theme=light)](https://skillicons.dev)

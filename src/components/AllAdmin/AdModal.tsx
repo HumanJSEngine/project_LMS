@@ -15,11 +15,30 @@ import EditButton from "../common/EditButton";
 // axios
 import axios from "axios";
 
-const AdModal = ({ liSeq, name, evaluation }) => {
+interface AdModalProps {
+  liSeq: number;
+  name: string;
+  evaluation: "상대평가" | "절대평가";
+  attendance: number;
+  middle: number;
+  final: number;
+  report: number;
+}
+
+const AdModal = ({
+  liSeq,
+  name,
+  evaluation,
+  attendance,
+  middle,
+  final,
+  report,
+}: AdModalProps) => {
   // 모달
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  console.log(evaluation);
 
   const style = {
     position: "absolute" as "absolute",
@@ -34,9 +53,9 @@ const AdModal = ({ liSeq, name, evaluation }) => {
   };
 
   // 토글버튼
-  console.log(evaluation);
-
-  const [alignment, setAlignment] = useState<number | null>(1);
+  const [alignment, setAlignment] = useState<number | null>(
+    evaluation === "상대평가" ? 1 : 2,
+  );
   const handleAlignment = (
     e: React.MouseEvent<HTMLElement>,
     newAlignment: number,
@@ -58,13 +77,20 @@ const AdModal = ({ liSeq, name, evaluation }) => {
       alert("취소하였습니다.");
     }
   };
+  interface Value {
+    attendance: number;
+    middle: number;
+    final: number;
+    report: number;
+  }
 
-  const initVal = {
+  const initVal: Value = {
     attendance: 0,
     middle: 0,
     final: 0,
     report: 0,
   };
+
   const [val, setVal] = useState(initVal);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,50 +98,71 @@ const AdModal = ({ liSeq, name, evaluation }) => {
     setVal({ ...val, [name]: value });
   };
 
-  // 출석 저장
+  // 출석 저장기능
   const attendanceFn = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const body = {
       maxScore: val.attendance,
     };
-    axios
-      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/1`, body)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
+    if (window.confirm("정말 수정하시겠습니까?")) {
+      axios
+        .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/1`, body)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err));
+      alert("저장하였습니다.");
+    } else {
+      alert("취소하였습니다.");
+    }
   };
 
-  // 중간 저장
+  // 중간 저장기능
   const middleFn = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const body = {
       maxScore: val.middle,
     };
-    axios
-      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/2`, body)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
+    if (window.confirm("정말 수정하시겠습니까?")) {
+      axios
+        .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/2`, body)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err));
+      alert("저장하였습니다.");
+    } else {
+      alert("취소하였습니다.");
+    }
   };
-  // 기말 저장
+  // 기말 저장기능
   const finalFn = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const body = {
       maxScore: val.final,
     };
-    axios
-      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/3`, body)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
+    if (window.confirm("정말 수정하시겠습니까?")) {
+      axios
+        .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/3`, body)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err));
+      alert("저장하였습니다.");
+    } else {
+      alert("취소하였습니다.");
+    }
   };
-  // 과제 저장
+
+  // 과제 저장기능
   const reportFn = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
     const body = {
       maxScore: val.report,
     };
-    axios
-      .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/4`, body)
-      .then(res => console.log(res.data))
-      .catch(err => console.log(err));
+    if (window.confirm("정말 수정하시겠습니까?")) {
+      axios
+        .post(`http://192.168.0.183:8520/api/stf/lectures/${liSeq}/4`, body)
+        .then(res => console.log(res.data))
+        .catch(err => console.log(err));
+      alert("저장하였습니다.");
+    } else {
+      alert("취소하였습니다.");
+    }
   };
 
   return (
@@ -163,6 +210,7 @@ const AdModal = ({ liSeq, name, evaluation }) => {
                   variant="standard"
                   onChange={handleChange}
                   name="attendance"
+                  defaultValue={attendance}
                 />
                 <EditButton
                   color="primary"
@@ -180,12 +228,32 @@ const AdModal = ({ liSeq, name, evaluation }) => {
                   variant="standard"
                   onChange={handleChange}
                   name="middle"
+                  defaultValue={middle}
                 />
                 <EditButton
                   color="primary"
                   variant="contained"
                   type="button"
                   onClick={middleFn}
+                >
+                  저장
+                </EditButton>
+              </BoxLayout>
+
+              <span>기말</span>
+              <BoxLayout>
+                <TextField
+                  type="number"
+                  variant="standard"
+                  onChange={handleChange}
+                  name="final"
+                  defaultValue={final}
+                />
+                <EditButton
+                  color="primary"
+                  variant="contained"
+                  type="button"
+                  onClick={finalFn}
                 >
                   저장
                 </EditButton>
@@ -197,29 +265,13 @@ const AdModal = ({ liSeq, name, evaluation }) => {
                   variant="standard"
                   onChange={handleChange}
                   name="report"
+                  defaultValue={report}
                 />
                 <EditButton
                   color="primary"
                   variant="contained"
                   type="button"
                   onClick={reportFn}
-                >
-                  저장
-                </EditButton>
-              </BoxLayout>
-              <span>기말</span>
-              <BoxLayout>
-                <TextField
-                  type="number"
-                  variant="standard"
-                  onChange={handleChange}
-                  name="final"
-                />
-                <EditButton
-                  color="primary"
-                  variant="contained"
-                  type="button"
-                  onClick={finalFn}
                 >
                   저장
                 </EditButton>

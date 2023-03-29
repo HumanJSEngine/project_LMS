@@ -13,7 +13,6 @@ import { type FListsProps } from "../../types/LastResult";
 
 
 
-
 export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
   console.log("리스트값", FLists);
 

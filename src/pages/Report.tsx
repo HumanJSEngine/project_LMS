@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 import {
   Table,
@@ -11,27 +12,37 @@ import {
 } from "@mui/material";
 
 import ReportModal from "../components/Report/ReportModal";
-
-function createData(name: string, date: string) {
-  return { name, date };
-}
-
-const rows = [
-  createData("1회차", "2023/1/1"),
-  createData("2회차", "2023/2/1"),
-  createData("3회차", "2023/3/1"),
-  createData("4회차", "2023/4/1"),
-  createData("5회차", "2023/5/1"),
-];
+import { useQuery } from "@tanstack/react-query";
 
 export default function BasicTable() {
+  const getReportLists = async () => {
+    return await axios
+      .get("http://192.168.0.183:8520/api/assignment/1")
+      .then(res => res.data.list);
+  };
+  
+  const {
+    status,
+    error,
+    data: ReportLists,
+  } = useQuery({
+    queryKey: ["ReportLists"],
+    queryFn: getReportLists,
+  });
+  if (status === "loading") return <h1>Loading...</h1>;
+  if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
+
+  console.log("리스트 조회", ReportLists);
   return (
     <>
+      <h1>과제</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
             <TableRow>
-              <TableCell>회차/날짜</TableCell>
+              <TableCell size="medium" align="left">
+                회차/날짜
+              </TableCell>
               <TableCell size="medium" align="center">
                 날짜
               </TableCell>
@@ -41,17 +52,17 @@ export default function BasicTable() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map(row => (
+            {ReportLists.map(list => (
               <TableRow
-                key={row.name}
+                key={list.aseq}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
                 <TableCell component="th" scope="row">
-                  {row.name}
+                  {list.aname}
                 </TableCell>
-                <TableCell align="center">{row.date}</TableCell>
+                <TableCell align="center">{list.adate}</TableCell>
                 <TableCell align="right">
-                  <ReportModal name={row.name} score={row.date} />
+                  <ReportModal name={list.aname} score={list.adate}/>
                 </TableCell>
               </TableRow>
             ))}

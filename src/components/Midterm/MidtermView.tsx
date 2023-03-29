@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Paper,
   Table,
@@ -8,10 +8,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { ScoreInput } from './ScoreInput';
 
 
-const MidtermSwitch = ({lists}) => {
+const MidtermView = ({lists}) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 800 }} aria-label="simple table">
@@ -27,15 +26,13 @@ const MidtermSwitch = ({lists}) => {
               <TableCell component="th" scope="row">
                 {list.name}
               </TableCell>
-              <TableCell align="left">
-                <ScoreInput score={list.score} mbSeq={list.mbSeq}/>
-                </TableCell>
+              <TableCell align="left">{list.score}</TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
 
-export default MidtermSwitch
+export default MidtermView;

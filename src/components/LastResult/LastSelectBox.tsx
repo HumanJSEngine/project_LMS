@@ -60,12 +60,10 @@ const LastSelectBox = ({
   console.log("학번", studentCode);
   console.log("선택등급", choiceValue);
 
-  const onSubmit = event => {
-    event.preventDefault();
-    console.log(choiceValue);
+  const onSubmit = e => {
+    e.preventDefault();
     const result = setLastResult(lectureNum, studentCode, choiceValue);
-
-    console.log(result.then(value => alert(value.message)));
+    result.then(value => alert(value.message));
   };
 
   return (

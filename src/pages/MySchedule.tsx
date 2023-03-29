@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Paper from "@mui/material/Paper";
 import styled from "@emotion/styled";
 import GlobalStyle from "../styles/GlobalStyle";
@@ -19,46 +19,39 @@ import {
   TodayButton,
   DateNavigator,
 } from "@devexpress/dx-react-scheduler-material-ui";
-
-const appointments: AppointmentModel[] = [
-  {
-    startDate: "2023-04-05T13:00",
-    endDate: "2023-04-05T15:15",
-    title: "자바 프로그래밍",
-    type: "work1",
-  },
-  {
-    startDate: "2023-04-06T11:30",
-    endDate: "2023-04-06T13:00",
-    title: "C언어",
-    type: "work2",
-  },
-  {
-    startDate: "2023-04-06T14:30",
-    endDate: "2023-04-06T16:00",
-    title: "영어회화",
-    type: "work3",
-  },
-  {
-    startDate: "2023-03-15T11:30",
-    endDate: "2023-03-15T13:00",
-    title: "C언어",
-    type: "work2",
-  },
-];
-const resources = [
-  {
-    fieldName: "type",
-    title: "Type",
-    instances: [
-      { id: "work1", text: "Word0", color: "#CF000F" },
-      { id: "work2", text: "Work1", color: "#A60000" },
-      { id: "work3", text: "Work2", color: "#7f1d1d" },
-    ],
-  },
-];
+import axios from "axios";
 
 const MySchedule = () => {
+  const [data, setData] = useState([]);
+  console.log(data);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const result = await axios.get(
+          "http://192.168.0.183:8520/api/timetable/1/1",
+        );
+        setData(result.data.list);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    void fetchData();
+  }, []);
+
+  const appointments: AppointmentModel[] = data;
+  const resources = [
+    {
+      fieldName: "type",
+      title: "Type",
+      instances: [
+        { id: "BAC001-01", text: "Class0", color: "#CF000F" },
+        { id: "BAC001-02", text: "Class1", color: "#c84444" },
+        { id: "FRO001-01", text: "Class2", color: "#A60000" },
+        { id: "UXI001-01", text: "Class3", color: "#7f1d1d" },
+      ],
+    },
+  ];
+
   React.useState<SchedulerDateTime>("");
   return (
     <div>

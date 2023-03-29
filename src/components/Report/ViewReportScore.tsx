@@ -21,7 +21,11 @@ const rows = [
   createData("Gingerbread", 356),
 ];
 
-const ViewReportScore = ({ open, setOpen }) => {
+interface Props {
+  open: boolean;
+  setOpen: () => void;
+}
+const ViewReportScore = ({ open, setOpen }: Props) => {
   const [viewScore, setViewScore] = useState(false);
   return (
     <>

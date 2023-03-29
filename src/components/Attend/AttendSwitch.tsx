@@ -1,13 +1,17 @@
 import React, { useState } from "react";
 import styled from "@emotion/styled";
 import AttendButtons from "./AttendButtons";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
+import AttendAllBtn from "./AttendAllBtn";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 
 function createData(
   name: string,
@@ -27,98 +31,17 @@ const rows = [
 ];
 
 const AttendSwitch = () => {
-  // const [total, setTotal] = useState(false);
-
-  // const attendAll = () => {
-  //   setTotal(true);
-  // };
-
-  // const attendNone = () => {
-  //   setTotal(false);
-  // };
-
   return (
-    // <Tbbox>
-    //   <caption>출결 입력 수정</caption>
-    //   <thead>
-    //     <tr>
-    //       <th scope="col">전체 출석/결석</th>
-    //       <th scope="col">
-    //         <button onClick={attendAll}>전체 출석</button>
-    //         <button onClick={attendNone}>전체 결석</button>
-    //       </th>
-    //       <th scope="col">
-    //         <button>전체 출석</button>
-    //         <button>전체 결석</button>
-    //       </th>
-    //       <th scope="col">
-    //         <button>전체 출석</button>
-    //         <button>전체 결석</button>
-    //       </th>
-    //     </tr>
-    //     <tr>
-    //       <th scope="row">학생/출석</th>
-    //       <th scope="col">1차시</th>
-    //       <th scope="col">2차시</th>
-    //       <th scope="col">3차시</th>
-    //     </tr>
-    //   </thead>
-    //   <tbody>
-    //     <Trbox>
-    //       <th scope="row">학생1</th>
-    //       <td>
-    //         <AttendButtons total={total} />
-    //       </td>
-    //       <td>
-    //         <AttendButtons />
-    //       </td>
-    //       <td>
-    //         <AttendButtons />
-    //       </td>
-    //     </Trbox>
-    //     <Trbox>
-    //       <th scope="row">학생2</th>
-    //       <td>
-    //         <AttendButtons total={total} />
-    //       </td>
-    //       <td>
-    //         <AttendButtons />
-    //       </td>
-    //       <td>
-    //         <AttendButtons />
-    //       </td>
-    //     </Trbox>
-    //     <Trbox>
-    //       <th scope="row">학생3</th>
-    //       <td>
-    //         <AttendButtons total={total} />
-    //       </td>
-    //       <td>
-    //         <AttendButtons />
-    //       </td>
-    //       <td>
-    //         <AttendButtons />
-    //       </td>
-    //     </Trbox>
-    //   </tbody>
-    // </Tbbox>
     <TableContainer component={Paper}>
-      <Table size="medium" sx={{ minWidth: 850 }} aria-label="simple table">
+      <Table size="medium" sx={{ minWidth: 800 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell>전체 출결</TableCell>
-            <TableCell>
-              <AttendButtons title1={"전체 출석"} title2={"전체 결석"} />
-            </TableCell>
-            <TableCell>
-              <AttendButtons title1={"전체 출석"} title2={"전체 결석"} />
-            </TableCell>
-            <TableCell>
-              <AttendButtons title1={"전체 출석"} title2={"전체 결석"} />
-            </TableCell>
-            <TableCell>
-              <AttendButtons title1={"전체 출석"} title2={"전체 결석"} />
-            </TableCell>
+            {rows.map((row, idx) => (
+              <TableCell key={row.name} component="th" scope="row">
+                <AttendAllBtn idx={idx} />
+              </TableCell>
+            ))}
           </TableRow>
           <TableRow>
             <TableCell>학생/차시</TableCell>
@@ -137,18 +60,13 @@ const AttendSwitch = () => {
               <TableCell component="th" scope="row">
                 {row.name}
               </TableCell>
-              <TableCell align="center">
-                <AttendButtons />
-              </TableCell>
-              <TableCell align="center">
-                <AttendButtons />
-              </TableCell>
-              <TableCell align="center">
-                <AttendButtons />
-              </TableCell>
-              <TableCell align="center">
-                <AttendButtons />
-              </TableCell>
+              {rows.map(row => {
+                return (
+                  <TableCell align="center" key={row.name}>
+                    <AttendButtons attend={"출석"} />
+                  </TableCell>
+                );
+              })}
             </TableRow>
           ))}
         </TableBody>
@@ -156,25 +74,5 @@ const AttendSwitch = () => {
     </TableContainer>
   );
 };
-
-const Tbbox = styled.table`
-  thead > tr > th {
-    width: 120px;
-    border: 2px solid black;
-  }
-  tbody > tr > th {
-    border: 1px solid black;
-    text-align: center;
-    height: 40px;
-  }
-`;
-
-const Trbox = styled.tr`
-  td {
-    padding: 10px;
-    border: 2px solid black;
-    text-align: center;
-  }
-`;
 
 export default AttendSwitch;

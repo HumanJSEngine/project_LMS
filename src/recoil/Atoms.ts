@@ -6,8 +6,3 @@ export const attendAllState = atom({
 });
 
 
-
-export const attendAllStateFilter = atom({
-  key: "attendAllStateFilter",
-  default: 'Show All',
-});

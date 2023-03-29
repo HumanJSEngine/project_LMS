@@ -1,16 +1,31 @@
 import React, { useState, useEffect } from "react";
 import styled from "@emotion/styled";
 import Button from "@mui/material/Button";
+import { attendAllSelector } from "../../recoil/Selectors";
+import { useRecoilValue } from "recoil";
 
 interface AttendButtonsType {
-  attend: string;
+  status: string;
 }
-const AttendButtons = ({ attend }: AttendButtonsType) => {
+const AttendButtons = ({ amasSeq, date, status }: AttendButtonsType) => {
   const [change, setChange] = useState(false);
 
-  // useEffect(() => {
-  //   setChange(total);
-  // }, [total]);
+  const attendAll = useRecoilValue(attendAllSelector);
+
+  const eachState = (attendAll, amasSeq) => {
+    const ans = attendAll.find(item => item.amasSeq === amasSeq);
+    return ans;
+  };
+
+  // console.log(eachState(attendAll, amasSeq));
+
+  useEffect(() => {
+    if (status === "O") {
+      setChange(true);
+    } else {
+      setChange(false);
+    }
+  }, []);
 
   return (
     <BtnWrapper>
@@ -18,13 +33,13 @@ const AttendButtons = ({ attend }: AttendButtonsType) => {
         variant={change ? "contained" : null}
         onClick={() => setChange(prev => !prev)}
       >
-        {attend ? "출석" : "출석"}
+        출석
       </AttendBtn>
       <AttendBtn
         variant={!change ? "contained" : null}
         onClick={() => setChange(prev => !prev)}
       >
-        {attend ? "결석" : "결석"}
+        결석
       </AttendBtn>
     </BtnWrapper>
   );

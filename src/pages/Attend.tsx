@@ -3,16 +3,41 @@ import AttendLayout from "../components/Attend/AttendLayout";
 import AttendTable from "../components/Attend/AttendTable";
 import AttendSwitch from "../components/Attend/AttendSwitch";
 import AttendBtn from "../components/Attend/AttendBtn";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 const Attend = () => {
   const [swap, setSwap] = useState(false);
+  const getAttendLists = async () => {
+    return await axios
+      .get("http://192.168.0.183:8520/api/atd/1")
+      .then(res => res.data.list);
+  };
+  const {
+    status,
+    error,
+    data: attendLists,
+  } = useQuery({
+    queryKey: ["posts"],
+    queryFn: getAttendLists,
+  });
+
+  console.log(attendLists);
+
+  if (status === "loading") return <h1>Loading...</h1>;
+  if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
+
   return (
     <>
       <AttendLayout>
         <h1>출결-조회</h1>
-        {swap ? <AttendTable /> : <AttendSwitch />}
+        {swap ? (
+          <AttendTable attendLists={attendLists} />
+        ) : (
+          <AttendSwitch attendLists={attendLists} />
+        )}
 
-        <AttendBtn swap= {swap} setSwap={setSwap}>
+        <AttendBtn swap={swap} setSwap={setSwap}>
           <span>{swap ? "수정" : "확인"}</span>
         </AttendBtn>
       </AttendLayout>

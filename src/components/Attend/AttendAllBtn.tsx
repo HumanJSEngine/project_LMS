@@ -11,18 +11,20 @@ import { attendAllSelector } from "../../recoil/Selectors";
 //   setAttendAll: React.Dispatch<React.SetStateAction<boolean>>;
 // }
 
-const AttendAllBtn = ({ idx }) => {
-  const setAttendAll = useSetRecoilState(attendAllState);
+const AttendAllBtn = ({ amasSeq, date }) => {
+  const [attendAll, setAttendAll] = useRecoilState(attendAllState);
 
-  const attendAll = useRecoilValue(attendAllState)[idx];
-  // const attendAllSelector = useRecoilValue();
-
+  // const attendNum = (attendAll, amasSeq) => {
+  //   const ans = attendAll.find(item => item.amasSeq === amasSeq);
+  //   return ans;
+  // };
+  // const attendAllList = useRecoilValue(attendAllSelector);
 
   useEffect(() => {
     setAttendAll(prev => [
       ...prev,
       {
-        statenum: idx,
+        amasSeq: amasSeq,
         attend: true,
       },
     ]);

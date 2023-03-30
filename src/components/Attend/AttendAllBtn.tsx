@@ -5,14 +5,15 @@ import React, { useState, useEffect } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { attendAllState } from "../../recoil/Atoms";
 import { attendAllSelector } from "../../recoil/Selectors";
+import { setAttendAllResult } from "../../api/AttendAllSetApi";
 
 // interface AttendBtnType {
 //   attendAll: boolean;
 //   setAttendAll: React.Dispatch<React.SetStateAction<boolean>>;
 // }
 
-const AttendAllBtn = ({ amasSeq, date }) => {
-  const [attendAll, setAttendAll] = useRecoilState(attendAllState);
+const AttendAllBtn = ({ amasSeq }) => {
+  const [attendAll, setAttendAll] = useState(true);
 
   // const attendNum = (attendAll, amasSeq) => {
   //   const ans = attendAll.find(item => item.amasSeq === amasSeq);
@@ -20,28 +21,34 @@ const AttendAllBtn = ({ amasSeq, date }) => {
   // };
   // const attendAllList = useRecoilValue(attendAllSelector);
 
-  useEffect(() => {
-    setAttendAll(prev => [
-      ...prev,
-      {
-        amasSeq: amasSeq,
-        attend: true,
-      },
-    ]);
-  }, []);
+  // useEffect(() => {
+  //   setAttendAll(prev => [
+  //     ...prev,
+  //     {
+  //       amasSeq: amasSeq,
+  //       attend: true,
+  //     },
+  //   ]);
+  // }, []);
+
+  const attend = () => {
+    setAttendAll(prev => !prev);
+    const result = setAttendAllResult(1, amasSeq, 1);
+    result.then(value => alert(value.message));
+  };
+
+  const absence = () => {
+    setAttendAll(prev => !prev);
+    const result = setAttendAllResult(1, amasSeq, 0);
+    result.then(value => alert(value.message));
+  };
 
   return (
     <BtnWrapper>
-      <ABtn
-        variant={attendAll ? "contained" : null}
-        onClick={() => setAttendAll(prev => !prev)}
-      >
+      <ABtn variant={attendAll ? "contained" : null} onClick={() => attend()}>
         전체출석
       </ABtn>
-      <ABtn
-        variant={!attendAll ? "contained" : null}
-        onClick={() => setAttendAll(prev => !prev)}
-      >
+      <ABtn variant={!attendAll ? "contained" : null} onClick={() => absence()}>
         전체결석
       </ABtn>
     </BtnWrapper>

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
-import styled from "@emotion/styled";
+
 import AttendButtons from "./AttendButtons";
 import AttendAllBtn from "./AttendAllBtn";
+import { InputmbSeq } from "../../utils/InputmbSeq";
 
 import {
   Table,
@@ -14,7 +15,10 @@ import {
 } from "@mui/material";
 
 const AttendSwitch = ({ attendLists }) => {
-  console.log(attendLists);
+  console.log('전체출결일 확인', attendLists);
+
+  const newArr = InputmbSeq(attendLists);
+  
   return (
     <>
       <h1>성적수정</h1>
@@ -25,7 +29,7 @@ const AttendSwitch = ({ attendLists }) => {
               <TableCell>전체 출결</TableCell>
               {attendLists[0].list.map(list => (
                 <TableCell key={list.amasSeq} component="th" scope="row">
-                  <AttendAllBtn amasSeq={list.amasSeq} date={list.date} />
+                  <AttendAllBtn amasSeq={list.amasSeq}/>
                 </TableCell>
               ))}
             </TableRow>
@@ -48,20 +52,19 @@ const AttendSwitch = ({ attendLists }) => {
                   component="th"
                   scope="row"
                   style={{ whiteSpace: "nowrap" }}
+                  key={list.mbSeq}
                 >
                   {list.name}
                 </TableCell>
-                {attendLists[idx].list.map(list => {
-                  return (
-                    <TableCell align="center" key={list.amasSeq}>
-                      <AttendButtons
-                        amasSeq={list.amasSeq}
-                        date={list.date}
-                        status={list.status}
-                      />
-                    </TableCell>
-                  );
-                })}
+                {newArr[idx].map(list => (
+                  <TableCell align="center" key={list.amasSeq}>
+                    <AttendButtons
+                      mbSeq={list.mbSeq}
+                      amasSeq={list.amasSeq}
+                      status={list.status}
+                    />
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
           </TableBody>

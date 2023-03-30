@@ -30,7 +30,6 @@ const Attend = () => {
   return (
     <>
       <AttendLayout>
-        <h1>출결-조회</h1>
         {swap ? (
           <AttendTable attendLists={attendLists} />
         ) : (

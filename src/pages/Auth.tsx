@@ -9,6 +9,7 @@ import { type IUser } from "../types/User";
 import { userAtom } from "../store/user/atom";
 import getUserLogin from "../utils/getUserLogin";
 import { useNavigate } from "react-router-dom";
+import logo from "../../src/logo.png";
 
 const Auth = () => {
   const { isLoginned, userInfo } = getUserLogin();
@@ -67,6 +68,15 @@ const Auth = () => {
 
   return (
     <Box>
+      <img
+        src={logo}
+        alt="logo"
+        style={{
+          width: "300px",
+          height: "200px",
+          paddingBottom: "50px",
+        }}
+      />
       <AuthForm onSubmit={onSubmitHandler}>
         <AuthTextArea>
           <CustomTextField

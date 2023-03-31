@@ -1,6 +1,7 @@
 import styled from "@emotion/styled";
 import { NavLink } from "react-router-dom";
 import colors, { transition } from "../../../styles/palette";
+import React from "react";
 
 interface MainNavItemProps {
   to: string;

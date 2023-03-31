@@ -1,19 +1,28 @@
 import styled from "@emotion/styled";
-import { useState } from "react";
-import { type UserType } from "../../routes";
 import Header from "./Header/Header";
+import React, { useEffect } from "react";
+import getUserLogin from "../../utils/getUserLogin";
+import useRoute from "../../utils/useRoute";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const [userType] = useState<UserType>("professor");
-  return (
+  const { route } = useRoute();
+  const { isLoginned, userInfo } = getUserLogin();
+  useEffect(() => {
+    if (!isLoginned) {
+      route("/");
+    }
+  }, [isLoginned]);
+  return userInfo != null ? (
     <Page>
-      <Header userType={userType} />
+      <Header userInfo={userInfo} />
       <div className="content">{children}</div>
     </Page>
+  ) : (
+    <></>
   );
 };
 

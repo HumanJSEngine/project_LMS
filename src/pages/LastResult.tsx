@@ -1,44 +1,25 @@
 import React, { useState } from "react";
-import styled from "@emotion/styled/types/base";
 import AttendLayout from "../components/Attend/AttendLayout";
 import LastResultView from "../components/LastResult/LastResultView";
 import LastResultInput from "../components/LastResult/LastResultInput";
 import LastResultBtn from "../components/LastResult/LastResultBtn";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import getClassParams from "../hooks/getClassParams";
 
-interface ScoreListProps {
-  explanation: string;
-  lecture: string;
-  maxScore: number;
-  name: string;
-  score: number;
-  seq: number;
-  student: string;
-  totalMaxScore: number;
-}
-
-interface FListsProps {
-  grade: string;
-  rank: number;
-  scoreList: ScoreListProps[];
-  studentCode: string;
-  studentName: string;
-  totalMaxScore: number;
-  totalScore: number;
-}
 const LastResult = () => {
   const [swap, setSwap] = useState(true);
+  const classid = getClassParams();
+  console.log(classid);
 
-  const confirmScore = () => {
-    alert("성적이 저장됨");
-  };
 
   const getFinalLists = async () => {
     return await axios
-      .get("http://192.168.0.183:8520/api/final/BAC001-00")
+      .get("http://192.168.0.183:8520/api/final/BAC001-01")
       .then(res => res.data);
   };
+
   const {
     status,
     error,
@@ -50,11 +31,8 @@ const LastResult = () => {
   if (status === "loading") return <h1>Loading...</h1>;
   if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
 
-  console.log(FLists[0]);
-
   return (
     <AttendLayout>
-      {swap ? <h1>성적 조회</h1> : <h1>성적 수정</h1>}
       {swap ? (
         <LastResultView FLists={FLists} />
       ) : (

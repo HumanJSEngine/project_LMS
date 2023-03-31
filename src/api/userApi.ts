@@ -1,13 +1,52 @@
 import { authClient } from "./authClient";
-const user = {
-  login: async (account: string, password: string) => {
-    try {
-      const res = await authClient.get("");
-      return res.data;
-    } catch (error) {
-      console.log(error);
-    }
-  },
-};
+import { isAxiosError, type AxiosResponse } from "axios";
+import { type UserType } from "../types/User";
 
-export default user;
+interface LoginDataType {
+  id: string;
+  pwd: string;
+}
+interface LoginParams {
+  id: string;
+  pwd: string;
+}
+
+interface LoginResponse extends AxiosResponse {
+  data: LoginResponseData;
+}
+
+interface LoginResponseData {
+  status: true;
+  seq: number;
+  id: string;
+  name: string;
+  type: UserType;
+  token: {
+    grantType: string;
+    accessToken: string;
+    refreshToken: string;
+  };
+}
+interface LoginErrorData {
+  status: false;
+  message: string;
+}
+
+export const userLogin = async ({
+  id,
+  pwd,
+}: LoginDataType): Promise<LoginResponseData | LoginErrorData> => {
+  try {
+    const params: LoginParams = {
+      id,
+      pwd,
+    };
+    const res: LoginResponse = await authClient.post("/login", params);
+    return res.data;
+  } catch (error) {
+    if (isAxiosError(error)) {
+      return error.response?.data;
+    }
+    throw error;
+  }
+};

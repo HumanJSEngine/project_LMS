@@ -1,50 +1,52 @@
 import * as React from "react";
-import styled from "@emotion/styled";
-import { ScoreInput } from "../Midterm/ScoreInput";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Paper,
-  Box,
-  Button,
-  Modal,
-} from "@mui/material";
+import { GetRnumList } from "../../utils/GetRnumList";
+import axios from "axios";
+import { Box, Button, Modal } from "@mui/material";
+
 import ReportBtn from "./ReportBtn";
+import ReportView from "./ReportView";
+import ReportInput from "./ReportInput";
+import { useQuery } from "@tanstack/react-query";
+import ExitModalBtn from "./ExitModalBtn";
 
-function createData(name: string, score: number) {
-  return { name, score };
-}
-
-const rows = [
-  createData("학생1", 80),
-  createData("학생2", 90),
-  createData("학생3", 75),
-  createData("학생4", 70),
-  createData("학생5", 60),
-];
-
-const style = {
-  position: "absolute" as "absolute",
-  top: "55%",
-  left: "60%",
-  transform: "translate(-50%, -50%)",
-  width: 800,
-  height: '100%',
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
-
-export default function BasicModal() {
+export default function BasicModal({ name }) {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const [swap, setSwap] = React.useState(true);
+
+  const getRScoreLists = async () => {
+    return await axios
+      .get("http://192.168.0.183:8520/api/sco/1/4")
+      .then(res => res.data.list);
+  };
+
+  const {
+    status,
+    error,
+    data: RScoreLists,
+  } = useQuery({
+    queryKey: ["RscoreLists"],
+    queryFn: getRScoreLists,
+  });
+  if (status === "loading") return <h1>Loading...</h1>;
+  if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
+
+  console.log("학생별 과제점수목록", RScoreLists);
+  console.log("과제명", name);
+
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "55%",
+    transform: "translate(-50%, -50%)",
+    width: 900,
+    height: "inherit",
+    bgcolor: "background.paper",
+    border: "2px solid #000",
+    boxShadow: 24,
+    p: 4,
+  };
 
   return (
     <>
@@ -59,65 +61,12 @@ export default function BasicModal() {
       >
         <Box sx={style}>
           {swap ? (
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 500 }}
-                size="small"
-                aria-label="a dense table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>차수/날짜</TableCell>
-                    <TableCell align="right">날짜</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map(row => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">{row.score}</TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <ReportView RnumList={GetRnumList(RScoreLists, name)} />
           ) : (
-            <TableContainer component={Paper}>
-              <Table
-                sx={{ minWidth: 500 }}
-                size="small"
-                aria-label="a dense table"
-              >
-                <TableHead>
-                  <TableRow>
-                    <TableCell>차수/날짜</TableCell>
-                    <TableCell align="right">날짜</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {rows.map(row => (
-                    <TableRow
-                      key={row.name}
-                      sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                    >
-                      <TableCell component="th" scope="row">
-                        {row.name}
-                      </TableCell>
-                      <TableCell align="right">
-                        <ScoreInput score={row.score} />
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
+            <ReportInput RnumList={GetRnumList(RScoreLists, name)} name={name}/>
           )}
           <ReportBtn swap={swap} setSwap={setSwap} />
+          <ExitModalBtn handleClose={handleClose}>창닫기</ExitModalBtn>
         </Box>
       </Modal>
     </>

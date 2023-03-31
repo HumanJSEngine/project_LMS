@@ -6,6 +6,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import { BsArrowBarLeft } from "react-icons/bs";
 import { GrClose } from "react-icons/gr";
 import React, { useState } from "react";
+import getClassParams from "../../hooks/getClassParams";
 
 interface MyClassLayoutProps {
   children: React.ReactNode;
@@ -13,7 +14,7 @@ interface MyClassLayoutProps {
 
 const MyClassLayout = ({ children }: MyClassLayoutProps) => {
   const pathname = location.pathname;
-  const { classid } = useParams();
+  const { classname, classInfo } = getClassParams();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleMenu = () => {
     setIsMenuOpen(prev => !prev);
@@ -21,23 +22,23 @@ const MyClassLayout = ({ children }: MyClassLayoutProps) => {
   return (
     <Box isOpen={isMenuOpen}>
       <Menu isOpen={isMenuOpen}>
-        {classid !== undefined && (
+        {classInfo != null && (
           <ul className="myclass-list">
             <MyClassMenuItem>
               <Link to={`/myclass`}>
                 <IoIosArrowBack />
-                JAVA
+                {classname}
               </Link>
             </MyClassMenuItem>
             <MyClassMenuItem
-              isActive={`/myclass/${classid}/student` === pathname}
+              isActive={`/myclass/${classInfo}/student` === pathname}
             >
-              <Link to={`/myclass/${classid}/student`}>수강생 관리</Link>
+              <Link to={`/myclass/${classInfo}/student`}>수강생 관리</Link>
             </MyClassMenuItem>
             <MyClassMenuItem
-              isActive={`/myclass/${classid}/grade/attend` === pathname}
+              isActive={`/myclass/${classInfo}/grade/attend` === pathname}
             >
-              <Link to={`/myclass/${classid}/grade/attend`}>성적 관리</Link>
+              <Link to={`/myclass/${classInfo}/grade/attend`}>성적 관리</Link>
             </MyClassMenuItem>
           </ul>
         )}

@@ -1,40 +1,20 @@
-import React, { useState, useRef } from "react";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import { ScoreInput } from "./ScoreInput";
+import React from 'react'
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import { ScoreInput } from './ScoreInput';
 
 
-function createData(name: string, score: number) {
-  return { name, score };
-}
-
-const rows = [
-  createData("학생1", 305),
-  createData("학생2", 452),
-  createData("학생3", 262),
-  createData("학생4", 305),
-  createData("학생5", 452),
-  createData("학생6", 262),
-  createData("학생7", 305),
-  createData("학생8", 452),
-  createData("학생9", 262),
-  createData("학생10", 305),
-  createData("학생11", 452),
-  createData("학생12", 262),
-];
-
-export default function CustomPaginationActionsTable() {
-
+const MidtermSwitch = ({lists}) => {
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 800 }} aria-label="custom pagination table">
+      <Table sx={{ minWidth: 800 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="left">학생/점수</TableCell>
@@ -42,14 +22,14 @@ export default function CustomPaginationActionsTable() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map(row => (
-            <TableRow key={row.name}>
-              <TableCell component="th" scope="row" size="medium" align="left">
-                {row.name}
+          {lists.map(list => (
+            <TableRow key={list.name}>
+              <TableCell component="th" scope="row">
+                {list.name}
               </TableCell>
-              <TableCell component="th" size="medium" align="left">
-                <ScoreInput score={row.score} />
-              </TableCell>
+              <TableCell align="left">
+                <ScoreInput score={list.score} mbSeq={list.mbSeq}/>
+                </TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -57,3 +37,5 @@ export default function CustomPaginationActionsTable() {
     </TableContainer>
   );
 }
+
+export default MidtermSwitch

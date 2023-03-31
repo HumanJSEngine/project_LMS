@@ -2,154 +2,122 @@ import styled from "@emotion/styled";
 import colors from "../../styles/palette";
 import { IoCloseOutline } from "react-icons/io5";
 import CustomButton from "../common/CustomButton";
-import { MenuItem, Select, TextField } from "@mui/material";
+import { TextField } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  type finalScore,
-  type IScoreManage,
-  type IScoreResponse,
-  type IStudent,
-} from "../../types/Student";
+import { type IScoreManage, type IStudent } from "../../types/Student";
+import { getStudentGrade, setStudentGrade } from "../../api/classApi";
+import getClassParams from "../../hooks/getClassParams";
 
 interface ManageStudentProps {
   closeModal: () => void;
   studentInfo: IStudent | null;
 }
 
-const finalScoreList: finalScore[] = [
-  "A+",
-  "A0",
-  "A-",
-  "B+",
-  "B0",
-  "B-",
-  "C+",
-  "C0",
-  "C-",
-  "D+",
-  "D0",
-  "D-",
-  "F",
-];
-
-const testdata: IScoreResponse = {
-  stuId: "20201025",
-  stuName: "김그린",
-  stuGrade: 2,
-  stuSubject: "컴퓨터공학과",
-  list: [
-    {
-      scoreCateSeq: 1,
-      scoreCateName: "출석",
-      attendCount: 10,
-      attendCountTotal: 20,
-    },
-    {
-      scoreCateSeq: 2,
-      scoreCateName: "중간",
-      score: 50,
-    },
-    {
-      scoreCateSeq: 3,
-      scoreCateName: "기말",
-      score: 60,
-    },
-    {
-      scoreCateSeq: 4,
-      scoreCateName: "과제",
-      score: 50,
-    },
-  ],
-  finalScore: "B0",
-};
-
 const ManageStudent = ({ closeModal, studentInfo }: ManageStudentProps) => {
-  const [scoreList, setScoreList] = useState<IScoreManage | null>(null);
-  const getScoreData = useCallback(() => {
-    const res = testdata;
-    const editableList = res.list.map(score => {
-      return {
-        ...score,
-        editable: false,
-      };
-    });
-    const scoreData: IScoreManage = {
-      ...res,
-      list: editableList,
-      finalScoreEditable: false,
-    };
-    setScoreList(scoreData);
-  }, [testdata]);
-  useEffect(() => {
-    getScoreData();
-  }, [testdata]);
-
-  const editScore = (id: number | "final", e?: React.MouseEvent) => {
-    e?.preventDefault();
-    if (scoreList != null) {
-      if (id === "final") {
-        const finalScoreEditable = !scoreList.finalScoreEditable;
-        setScoreList({ ...scoreList, finalScoreEditable });
-      } else {
-        const index = scoreList?.list.findIndex(
-          item => item.scoreCateSeq === id,
-        );
-        if (index !== -1) {
-          const list = scoreList.list.map(item => {
-            if (item.scoreCateSeq === id)
-              return { ...item, editable: !item.editable };
-            return { ...item };
-          });
-          setScoreList({
-            ...scoreList,
-            list,
-          });
-        }
+  const [scoreData, setScoreList] = useState<IScoreManage | null>(null);
+  const { classid } = getClassParams();
+  const getScoreData = useCallback(async () => {
+    try {
+      if (classid != null && studentInfo != null) {
+        const res = await getStudentGrade(parseInt(classid), studentInfo?.seq);
+        const attendList = res?.lectureStudentAttendVO.map(attend => {
+          return {
+            ...attend,
+            editable: false,
+          };
+        });
+        const scoreList = res?.lectureStudentCateListScoreVO.map(score => {
+          return {
+            ...score,
+            editable: false,
+          };
+        });
+        const scoreData: IScoreManage = {
+          stuId: res.stuId,
+          stuName: res.stuName,
+          stuGrade: res.stuGrade,
+          stuSubject: res.stuSubject,
+          attendList,
+          scoreList,
+          finalScore: res.finalScore,
+        };
+        setScoreList(scoreData);
       }
+    } catch (err) {
+      console.log(err);
     }
-  };
-  const confirmScore = (
-    e: React.FormEvent<HTMLFormElement>,
-    id: number | "final",
-  ) => {
-    e.preventDefault();
-    const scoreData = new FormData(e.currentTarget);
-    if (scoreList !== null) {
-      if (typeof id === "number") {
-        const list = scoreList.list.map(item => {
-          if (item.scoreCateSeq === id) {
-            if ("attendCount" in item) {
-              return {
-                ...item,
-                attendCount: parseInt(scoreData.get("score") as string),
-              };
-            } else if ("score" in item) {
-              return {
-                ...item,
-                score: parseInt(scoreData.get("score") as string),
-              };
-            }
-          }
+  }, [studentInfo]);
+
+  useEffect(() => {
+    void getScoreData();
+  }, [classid, studentInfo]);
+
+  const editScore = (id: number, e?: React.MouseEvent) => {
+    e?.preventDefault();
+    if (scoreData != null) {
+      const index = scoreData?.scoreList.findIndex(
+        item => item.scoreCateSeq === id,
+      );
+      if (index !== -1) {
+        const list = scoreData.scoreList.map(item => {
+          if (item.scoreCateSeq === id)
+            return { ...item, editable: !item.editable };
           return { ...item };
         });
         setScoreList({
-          ...scoreList,
-          list,
-        });
-      } else if (id === "final") {
-        setScoreList({
-          ...scoreList,
-          finalScore: scoreData.get("finalScore") as finalScore,
+          ...scoreData,
+          scoreList: list,
         });
       }
-      editScore(id);
+    }
+  };
+  const confirmScore = async (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number,
+  ) => {
+    e.preventDefault();
+    const scoreForm = new FormData(e.currentTarget);
+    if (scoreData !== null) {
+      const index = scoreData?.scoreList.findIndex(
+        item => item.scoreCateSeq === id,
+      );
+      const scoreValue = parseInt(scoreForm.get("score") as string);
+      if (scoreValue > scoreData?.scoreList[index].maxScore) {
+        return alert(
+          `${scoreData?.scoreList[index].scoreCateName} 점수는 ${scoreData?.scoreList[index].maxScore}이하여야합니다.`,
+        );
+      }
+      try {
+        if (classid != null && studentInfo != null) {
+          const res = await setStudentGrade(
+            parseInt(classid),
+            studentInfo?.seq,
+            id,
+            scoreValue,
+          );
+          const list = scoreData.scoreList.map(item => {
+            return {
+              ...item,
+              score: scoreValue,
+            };
+          });
+          setScoreList({
+            ...scoreData,
+            scoreList: list,
+          });
+          editScore(id);
+          return alert(res.message);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
   return (
     <Box>
       <Header>
         <p className="student-name">
-          {scoreList != null &&
+          {scoreData != null &&
             studentInfo !== null &&
             `${studentInfo.stuName} (${studentInfo.stuId}/${studentInfo.stuSubject})`}
         </p>
@@ -158,44 +126,33 @@ const ManageStudent = ({ closeModal, studentInfo }: ManageStudentProps) => {
         </button>
       </Header>
       <div className="contents-box">
-        {scoreList?.list.map(item => {
+        {scoreData?.attendList.map((attend, index) => {
+          return (
+            <div className="info-box" key={index}>
+              <p className="info-name">출석 정보</p>
+              <p className="info-text">
+                현재 출석일 {attend.attendCount}일 / 총 출석일
+                {attend.attendCountTotal}일
+              </p>
+            </div>
+          );
+        })}
+        {scoreData?.scoreList.map((item, index) => {
           return (
             <form
               className="info-box"
-              key={item.scoreCateSeq}
-              onSubmit={e => confirmScore(e, item.scoreCateSeq)}
+              key={item.scoreCateSeq !== 0 ? item.scoreCateSeq : index}
+              onSubmit={async e => await confirmScore(e, item.scoreCateSeq)}
             >
               <p className="info-name">{item.scoreCateName}</p>
-              {"attendCount" in item ? (
-                <>
-                  <TextField
-                    type="number"
-                    name="score"
-                    variant="standard"
-                    disabled={!item.editable}
-                    defaultValue={item.attendCount}
-                    style={{ width: "calc(30% - 25px)" }}
-                  />
-                  /
-                  <TextField
-                    type="number"
-                    name="score"
-                    variant="standard"
-                    disabled={true}
-                    defaultValue={item.attendCountTotal}
-                    style={{ width: "calc(30% - 25px)" }}
-                  />
-                </>
-              ) : (
-                <TextField
-                  type="number"
-                  name="score"
-                  variant="standard"
-                  disabled={!item.editable}
-                  defaultValue={item.score}
-                  style={{ width: "60%" }}
-                />
-              )}
+              <TextField
+                type="number"
+                name="score"
+                variant="standard"
+                disabled={!item.editable}
+                defaultValue={item.score}
+                style={{ width: "60%" }}
+              />
               {item.editable ? (
                 <CustomButton color="primary" variant="contained" type="submit">
                   완료
@@ -213,37 +170,11 @@ const ManageStudent = ({ closeModal, studentInfo }: ManageStudentProps) => {
             </form>
           );
         })}
-        {scoreList != null && (
-          <form className="info-box" onSubmit={e => confirmScore(e, "final")}>
-            <p className="info-name">최종성적</p>
-            <Select
-              variant="standard"
-              name="finalScore"
-              disabled={!scoreList.finalScoreEditable}
-              defaultValue={scoreList.finalScore}
-              style={{ width: "60%" }}
-            >
-              {finalScoreList.map(finalScore => (
-                <MenuItem key={finalScore} value={finalScore}>
-                  {finalScore}
-                </MenuItem>
-              ))}
-            </Select>
-            {scoreList.finalScoreEditable ? (
-              <CustomButton color="primary" variant="contained" type="submit">
-                완료
-              </CustomButton>
-            ) : (
-              <CustomButton
-                color="primary"
-                variant="contained"
-                type="button"
-                onClick={e => editScore("final", e)}
-              >
-                수정
-              </CustomButton>
-            )}
-          </form>
+        {scoreData != null && (
+          <div className="info-box">
+            <p className="info-name">최종 성적</p>
+            <p className="info-text">{scoreData.finalScore}</p>
+          </div>
         )}
       </div>
     </Box>
@@ -272,6 +203,9 @@ const Box = styled.div`
       width: 100%;
       & .info-name {
         width: 30%;
+      }
+      & .info-text {
+        width: 85%;
       }
     }
   }

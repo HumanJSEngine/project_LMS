@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import AttendButtons from "./AttendButtons";
 import AttendAllBtn from "./AttendAllBtn";
@@ -13,15 +13,14 @@ import {
   TableRow,
   Paper,
 } from "@mui/material";
+import { useQuery } from "@tanstack/react-query";
 
 const AttendSwitch = ({ attendLists }) => {
-  console.log('전체출결일 확인', attendLists);
-
   const newArr = InputmbSeq(attendLists);
-  
+
   return (
     <>
-      <h1>성적수정</h1>
+      <h1>출석수정</h1>
       <TableContainer component={Paper}>
         <Table size="medium" sx={{ minWidth: 800 }} aria-label="simple table">
           <TableHead>
@@ -29,7 +28,7 @@ const AttendSwitch = ({ attendLists }) => {
               <TableCell>전체 출결</TableCell>
               {attendLists[0].list.map(list => (
                 <TableCell key={list.amasSeq} component="th" scope="row">
-                  <AttendAllBtn amasSeq={list.amasSeq}/>
+                  <AttendAllBtn amasSeq={list.amasSeq} />
                 </TableCell>
               ))}
             </TableRow>

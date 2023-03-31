@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import styled from "@emotion/styled";
 import ConfirmBtn from "./ConfirmBtn";
 import { setLastResult } from "../../api/lastResultApi";
@@ -48,17 +48,16 @@ const LastSelectBox = ({
   grade,
   studentCode,
 }: LastSelectBoxProps) => {
-  const [choiceValue, setChoiceValue] = React.useState("");
+  const [choiceValue, setChoiceValue] = useState(switchGrade(grade));
+
+  const selectRef = useRef(null);
 
   const handleChange = e => {
-    console.log(e.target.value);
-    setChoiceValue(e.target.value);
+    setChoiceValue(selectRef.current.value);
+    console.log(choiceValue);
   };
 
   const lectureNum = scoreList[0].lecture;
-  console.log("강의번호", lectureNum);
-  console.log("학번", studentCode);
-  console.log("선택등급", choiceValue);
 
   const onSubmit = e => {
     e.preventDefault();
@@ -73,6 +72,7 @@ const LastSelectBox = ({
         onChange={handleChange}
         key={grade}
         defaultValue={switchGrade(grade)}
+        ref={selectRef}
       >
         {optionData.map(option => (
           <option key={option.key} value={option.value}>

@@ -5,10 +5,14 @@ import LastResultInput from "../components/LastResult/LastResultInput";
 import LastResultBtn from "../components/LastResult/LastResultBtn";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-
+import { useParams } from "react-router-dom";
+import getClassParams from "../hooks/getClassParams";
 
 const LastResult = () => {
-  const [swap, setSwap] = useState(false);
+  const [swap, setSwap] = useState(true);
+  const classid = getClassParams();
+  console.log(classid);
+
 
   const getFinalLists = async () => {
     return await axios
@@ -27,11 +31,8 @@ const LastResult = () => {
   if (status === "loading") return <h1>Loading...</h1>;
   if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
 
-  console.log('리스트 조회', FLists);
-
   return (
     <AttendLayout>
-      {swap ? <h1>성적 조회</h1> : <h1>성적 수정</h1>}
       {swap ? (
         <LastResultView FLists={FLists} />
       ) : (

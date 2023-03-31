@@ -15,7 +15,7 @@ export default function BasicTable({attendLists}) {
 
   return (
     <>
-    <h1>성적조회</h1>
+    <h1>출석조회</h1>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 700 }} aria-label="simple table">
           <TableHead>

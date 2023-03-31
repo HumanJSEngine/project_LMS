@@ -6,6 +6,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { attendAllState } from "../../recoil/Atoms";
 import { attendAllSelector } from "../../recoil/Selectors";
 import { setAttendAllResult } from "../../api/AttendAllSetApi";
+import { useMutation } from "@tanstack/react-query";
 
 // interface AttendBtnType {
 //   attendAll: boolean;
@@ -13,7 +14,7 @@ import { setAttendAllResult } from "../../api/AttendAllSetApi";
 // }
 
 const AttendAllBtn = ({ amasSeq }) => {
-  const [attendAll, setAttendAll] = useState(true);
+  const [attendAll, setAttendAll] = useState('');
 
   // const attendNum = (attendAll, amasSeq) => {
   //   const ans = attendAll.find(item => item.amasSeq === amasSeq);
@@ -32,13 +33,13 @@ const AttendAllBtn = ({ amasSeq }) => {
   // }, []);
 
   const attend = () => {
-    setAttendAll(prev => !prev);
+    setAttendAll(attendAll => true);
     const result = setAttendAllResult(1, amasSeq, 1);
     result.then(value => alert(value.message));
   };
 
   const absence = () => {
-    setAttendAll(prev => !prev);
+    setAttendAll(attendAll => false);
     const result = setAttendAllResult(1, amasSeq, 0);
     result.then(value => alert(value.message));
   };

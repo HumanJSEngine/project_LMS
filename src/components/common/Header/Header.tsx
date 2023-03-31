@@ -26,9 +26,6 @@ const Header = ({ userInfo }: HeaderProps) => {
   return (
     <Box>
       <ProfileBox>
-        <div className="profile-image">
-          <img src="" alt="" />
-        </div>
         <div className="profile-info">
           <p>
             {userInfo.type === "professor"
@@ -68,17 +65,6 @@ const ProfileBox = styled.div`
   width: 100%;
   height: auto;
   padding: 20px 20px;
-  & .profile-image {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    overflow: hidden;
-    & img {
-      width: 100%;
-      height: 100%;
-      background: ${colors.gray500};
-    }
-  }
   & .profile-info {
     display: flex;
     flex-direction: column;

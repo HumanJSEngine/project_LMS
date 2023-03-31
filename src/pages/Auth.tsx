@@ -19,7 +19,7 @@ const Auth = () => {
       if (userInfo?.type === "professor") {
         navigate("/myschedule");
       } else if (userInfo?.type === "staff") {
-        navigate("/management");
+        navigate("/editclass");
       } else if (userInfo?.type === "student") {
         navigate("/");
       }
@@ -40,7 +40,7 @@ const Auth = () => {
         if (res.type === "professor") {
           navigate("/myschedule");
         } else if (res.type === "staff") {
-          navigate("/management");
+          navigate("/editclass");
         } else if (res.type === "student") {
           navigate("/");
         }

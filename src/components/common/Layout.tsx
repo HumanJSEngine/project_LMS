@@ -1,16 +1,20 @@
 import styled from "@emotion/styled";
 import Header from "./Header/Header";
-import { useRecoilValue } from "recoil";
-import { type IUser } from "../../types/User";
-import { userAtom } from "../../store/user/atom";
 import React from "react";
+import getUserLogin from "../../utils/getUserLogin";
+import useRoute from "../../utils/useRoute";
 
 interface LayoutProps {
   children: React.ReactNode;
 }
 
 const Layout = ({ children }: LayoutProps) => {
-  const userInfo = useRecoilValue<IUser>(userAtom);
+  const { route } = useRoute();
+  const { isLoginned, userInfo } = getUserLogin();
+  if (userInfo == null || !isLoginned) {
+    route("/");
+    return <></>;
+  }
   return (
     <Page>
       <Header userInfo={userInfo} />

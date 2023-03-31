@@ -1,7 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-// import CustomToggleButton from "../components/common/CustomToggleButton";
-// import CustomToggleButtonGroup from "../components/common/CustomToggleButtonGroup";
 import CustomTextField from "../components/common/CustomTextField";
 import CustomButton from "../components/common/CustomButton";
 import { userLogin } from "../api/userApi";
@@ -9,10 +7,23 @@ import { useMutation } from "@tanstack/react-query";
 import { useSetRecoilState } from "recoil";
 import { type IUser } from "../types/User";
 import { userAtom } from "../store/user/atom";
+import getUserLogin from "../utils/getUserLogin";
 import { useNavigate } from "react-router-dom";
 
 const Auth = () => {
+  const { isLoginned, userInfo } = getUserLogin();
   const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoginned) {
+      if (userInfo?.type === "professor") {
+        navigate("/myschedule");
+      } else if (userInfo?.type === "staff") {
+        navigate("/management");
+      } else if (userInfo?.type === "student") {
+        navigate("/");
+      }
+    }
+  }, [userInfo]);
   const setUserAtom = useSetRecoilState<IUser>(userAtom);
   const { isLoading, mutate } = useMutation(userLogin, {
     onSuccess: res => {
@@ -54,33 +65,9 @@ const Auth = () => {
     mutate(loginData);
   };
 
-  // const changeLoginUserType = (
-  //   e: React.MouseEvent<HTMLElement>,
-  //   newValue: UserType,
-  // ) => {
-  //   setUserType(newValue);
-  // };
-
   return (
     <Box>
       <AuthForm onSubmit={onSubmitHandler}>
-        {/* <CustomToggleButtonGroup */}
-        {/*  color="primary" */}
-        {/*  value={userType} */}
-        {/*  exclusive */}
-        {/*  onChange={changeLoginUserType} */}
-        {/*  aria-label="user-type" */}
-        {/* > */}
-        {/*  <CustomToggleButton color="primary" value="student"> */}
-        {/*    학생 */}
-        {/*  </CustomToggleButton> */}
-        {/*  <CustomToggleButton color="primary" value="professor"> */}
-        {/*    교수 */}
-        {/*  </CustomToggleButton> */}
-        {/*  <CustomToggleButton color="primary" value="staff"> */}
-        {/*    교직원 */}
-        {/*  </CustomToggleButton> */}
-        {/* </CustomToggleButtonGroup> */}
         <AuthTextArea>
           <CustomTextField
             type="text"

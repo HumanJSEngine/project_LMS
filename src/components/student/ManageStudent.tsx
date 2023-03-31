@@ -5,8 +5,8 @@ import CustomButton from "../common/CustomButton";
 import { TextField } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
 import { type IScoreManage, type IStudent } from "../../types/Student";
-import { useParams } from "react-router-dom";
 import { getStudentGrade, setStudentGrade } from "../../api/classApi";
+import getClassParams from "../../hooks/getClassParams";
 
 interface ManageStudentProps {
   closeModal: () => void;
@@ -14,9 +14,8 @@ interface ManageStudentProps {
 }
 
 const ManageStudent = ({ closeModal, studentInfo }: ManageStudentProps) => {
-  const { classInfo } = useParams();
-  const classid = classInfo?.split("_")[0];
   const [scoreData, setScoreList] = useState<IScoreManage | null>(null);
+  const { classid } = getClassParams();
   const getScoreData = useCallback(async () => {
     try {
       if (classid != null && studentInfo != null) {

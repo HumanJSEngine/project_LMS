@@ -38,7 +38,6 @@ const AdModal = ({
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  console.log(evaluation);
 
   const style = {
     position: "absolute" as "absolute",

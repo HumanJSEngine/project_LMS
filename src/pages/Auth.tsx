@@ -1,64 +1,105 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import CustomToggleButton from "../components/common/CustomToggleButton";
-import CustomToggleButtonGroup from "../components/common/CustomToggleButtonGroup";
 import CustomTextField from "../components/common/CustomTextField";
 import CustomButton from "../components/common/CustomButton";
-import colors from "../styles/palette";
-import { type UserType } from "../routes";
+import { userLogin } from "../api/userApi";
+import { useMutation } from "@tanstack/react-query";
+import { useSetRecoilState } from "recoil";
+import { type IUser } from "../types/User";
+import { userAtom } from "../store/user/atom";
+import getUserLogin from "../utils/getUserLogin";
+import { useNavigate } from "react-router-dom";
+import logo from "../../src/logo.png";
 
 const Auth = () => {
-  const [userType, setUserType] = useState<UserType>("student");
+  const { isLoginned, userInfo } = getUserLogin();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (isLoginned) {
+      if (userInfo?.type === "professor") {
+        navigate("/myschedule");
+      } else if (userInfo?.type === "staff") {
+        navigate("/editclass");
+      } else if (userInfo?.type === "student") {
+        navigate("/");
+      }
+    }
+  }, [userInfo]);
+  const setUserAtom = useSetRecoilState<IUser>(userAtom);
+  const { isLoading, mutate } = useMutation(userLogin, {
+    onSuccess: res => {
+      const { status } = res;
+      if (status) {
+        const { seq, id, name, type } = res;
+        setUserAtom({
+          seq,
+          id,
+          name,
+          type,
+        });
+        if (res.type === "professor") {
+          navigate("/myschedule");
+        } else if (res.type === "staff") {
+          navigate("/editclass");
+        } else if (res.type === "student") {
+          navigate("/");
+        }
+      } else if (!status) {
+        const { message } = res;
+        return alert(message);
+      } else {
+        return alert("알수 없는 에러 발생. 다시 시도해주세요.");
+      }
+    },
+  });
+
   const onSubmitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData(e.currentTarget);
-  };
-
-  const changeLoginUserType = (
-    e: React.MouseEvent<HTMLElement>,
-    newValue: UserType,
-  ) => {
-    setUserType(newValue);
+    const loginForm = new FormData(e.currentTarget);
+    const loginData = {
+      id: loginForm.get("account") as string,
+      pwd: loginForm.get("password") as string,
+    };
+    if (loginData.id === "" || loginData.pwd === "") {
+      return alert("아이디와 비밀번호를 입력해주세요.");
+    }
+    mutate(loginData);
   };
 
   return (
     <Box>
+      <img
+        src={logo}
+        alt="logo"
+        style={{
+          width: "300px",
+          height: "200px",
+          paddingBottom: "50px",
+        }}
+      />
       <AuthForm onSubmit={onSubmitHandler}>
-        <CustomToggleButtonGroup
-          color="primary"
-          value={userType}
-          exclusive
-          onChange={changeLoginUserType}
-          aria-label="user-type"
-        >
-          <CustomToggleButton color="primary" value="student">
-            학생
-          </CustomToggleButton>
-          <CustomToggleButton color="primary" value="professor">
-            교수
-          </CustomToggleButton>
-          <CustomToggleButton color="primary" value="staff">
-            교직원
-          </CustomToggleButton>
-        </CustomToggleButtonGroup>
         <AuthTextArea>
-          <AuthError>
-            <p>에러 발생 텍스트</p>
-          </AuthError>
           <CustomTextField
             type="text"
             label="계정"
             id="account"
             name="account"
+            disabled={isLoading}
           />
           <CustomTextField
             type="password"
             label="암호"
             id="password"
             name="password"
+            disabled={isLoading}
           />
         </AuthTextArea>
-        <CustomButton type="submit" variant="contained" color="primary">
+        <CustomButton
+          type="submit"
+          variant="contained"
+          color="primary"
+          disabled={isLoading}
+        >
           로그인
         </CustomButton>
       </AuthForm>
@@ -83,13 +124,6 @@ const AuthTextArea = styled.div`
   flex-direction: column;
   gap: 20px;
   width: 100%;
-`;
-
-const AuthError = styled.div`
-  & p {
-    font: 15px 500;
-    color: ${colors.error};
-  }
 `;
 
 export default Auth;

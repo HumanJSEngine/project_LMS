@@ -11,8 +11,13 @@ import LastResult from "./pages/LastResult";
 import Setting from "./pages/Setting";
 import Student from "./pages/Student";
 import MyClassLayout from "./components/myclass/MyClassLayout";
+import { type UserType } from "./types/User";
+import React from "react";
 import EditClass from "./pages/EditClass";
-export type UserType = "student" | "professor" | "staff" | "all";
+import MakeClass from "./pages/MakeClass";
+import ProfessorAuth from "./components/common/ProfessorAuth";
+import StaffAuth from "./components/common/StaffAuth";
+import StudentAuth from "./components/common/StudentAuth";
 type MenuDepthType = "main";
 
 interface IRoute {
@@ -36,7 +41,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "내 강의 시간표",
-    path: "/mychedule",
+    path: "/myschedule",
     element: <MySchedule />,
     withAuth: true,
     menuDepth: "main",
@@ -52,7 +57,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "수강생 관리",
-    path: "/myclass/:classid/student",
+    path: "/myclass/:classInfo/student",
     element: (
       <MyClassLayout>
         <Student />
@@ -63,7 +68,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 출결",
-    path: "/myclass/:classid/grade/attend",
+    path: "/myclass/:classInfo/grade/attend",
     element: (
       <MyClassLayout>
         <Attend />
@@ -74,7 +79,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 중간시험",
-    path: "/myclass/:classid/grade/midterm",
+    path: "/myclass/:classInfo/grade/midterm",
     element: (
       <MyClassLayout>
         <Midterm />
@@ -85,7 +90,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 기말시험",
-    path: "/myclass/:classid/grade/finterm",
+    path: "/myclass/:classInfo/grade/finterm",
     element: (
       <MyClassLayout>
         <Finterm />
@@ -96,7 +101,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 과제",
-    path: "/myclass/:classid/grade/report",
+    path: "/myclass/:classInfo/grade/report",
     element: (
       <MyClassLayout>
         <Report />
@@ -107,7 +112,7 @@ export const routerData: IRoute[] = [
   },
   {
     name: "성적 관리 - 최종성적",
-    path: "/myclass/:classid/grade/total",
+    path: "/myclass/:classInfo/grade/total",
     element: (
       <MyClassLayout>
         <LastResult />
@@ -116,26 +121,26 @@ export const routerData: IRoute[] = [
     withAuth: true,
     authType: "professor",
   },
-  {
-    name: "학생, 교수 관리",
-    path: "/management",
-    element: <Auth />,
-    withAuth: true,
-    menuDepth: "main",
-    authType: "staff",
-  },
-  {
-    name: "전체 계정 조회",
-    path: "/account",
-    element: <Auth />,
-    withAuth: true,
-    menuDepth: "main",
-    authType: "staff",
-  },
+  // {
+  //   name: "학생, 교수 관리",
+  //   path: "/management",
+  //   element: <Auth />,
+  //   withAuth: true,
+  //   menuDepth: "main",
+  //   authType: "staff",
+  // },
+  // {
+  //   name: "전체 계정 조회",
+  //   path: "/account",
+  //   element: <Auth />,
+  //   withAuth: true,
+  //   menuDepth: "main",
+  //   authType: "staff",
+  // },
   {
     name: "강의 개설",
     path: "/makeclass",
-    element: <Auth />,
+    element: <MakeClass />,
     withAuth: true,
     menuDepth: "main",
     authType: "staff",
@@ -160,6 +165,34 @@ export const routerData: IRoute[] = [
 export const routers = createBrowserRouter(
   routerData.map(router => {
     if (router.withAuth) {
+      if (router.authType === "professor") {
+        return {
+          path: router.path,
+          element: (
+            <Layout>
+              <ProfessorAuth>{router.element}</ProfessorAuth>
+            </Layout>
+          ),
+        };
+      } else if (router.authType === "staff") {
+        return {
+          path: router.path,
+          element: (
+            <Layout>
+              <StaffAuth>{router.element}</StaffAuth>
+            </Layout>
+          ),
+        };
+      } else if (router.authType === "student") {
+        return {
+          path: router.path,
+          element: (
+            <Layout>
+              <StudentAuth>{router.element}</StudentAuth>
+            </Layout>
+          ),
+        };
+      }
       return {
         path: router.path,
         element: <Layout>{router.element}</Layout>,

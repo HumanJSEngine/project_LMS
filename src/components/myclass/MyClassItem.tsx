@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
 import { Link } from "react-router-dom";
-import { type PathData } from "../../routes";
 import { font } from "../../styles/fonts";
 import colors, { shadow } from "../../styles/palette";
 import { type IClass } from "../../types/Class";
@@ -12,7 +11,9 @@ interface MyClassItemProps {
 const MyClassItem = ({ myclass }: MyClassItemProps) => {
   return (
     <Box>
-      <Link to={`/myclass/${myclass.liSeq}/student`}>{myclass.liName}</Link>
+      <Link to={`/myclass/${myclass.liSeq}_${myclass.liName}/student`}>
+        {myclass.liName}
+      </Link>
     </Box>
   );
 };

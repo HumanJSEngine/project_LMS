@@ -38,7 +38,8 @@ import { useParams } from "react-router-dom";
 // ];
 
 const Student = () => {
-  const { classid } = useParams();
+  const { classInfo } = useParams();
+  const classid = classInfo?.split("_")[0];
   const [open, setOpen] = useState<boolean>(false);
   // const [page, setPage] = useState<number>(0);
   // const [rowsPerPage, setRowsPerPage] = useState<number>(1);

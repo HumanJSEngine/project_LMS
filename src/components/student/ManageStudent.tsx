@@ -4,13 +4,9 @@ import { IoCloseOutline } from "react-icons/io5";
 import CustomButton from "../common/CustomButton";
 import { TextField } from "@mui/material";
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  type finalScore,
-  type IScoreManage,
-  type IStudent,
-} from "../../types/Student";
-import { useParams } from "react-router-dom";
+import { type IScoreManage, type IStudent } from "../../types/Student";
 import { getStudentGrade, setStudentGrade } from "../../api/classApi";
+import getClassParams from "../../hooks/getClassParams";
 
 interface ManageStudentProps {
   closeModal: () => void;
@@ -18,8 +14,8 @@ interface ManageStudentProps {
 }
 
 const ManageStudent = ({ closeModal, studentInfo }: ManageStudentProps) => {
-  const { classid } = useParams();
   const [scoreData, setScoreList] = useState<IScoreManage | null>(null);
+  const { classid } = getClassParams();
   const getScoreData = useCallback(async () => {
     try {
       if (classid != null && studentInfo != null) {

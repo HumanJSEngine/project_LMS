@@ -14,6 +14,9 @@ import MyClassLayout from "./components/myclass/MyClassLayout";
 import { type UserType } from "./types/User";
 import React from "react";
 import EditClass from "./pages/EditClass";
+import ProfessorAuth from "./components/common/ProfessorAuth";
+import StaffAuth from "./components/common/StaffAuth";
+import StudentAuth from "./components/common/StudentAuth";
 type MenuDepthType = "main";
 
 interface IRoute {
@@ -161,6 +164,34 @@ export const routerData: IRoute[] = [
 export const routers = createBrowserRouter(
   routerData.map(router => {
     if (router.withAuth) {
+      if (router.authType === "professor") {
+        return {
+          path: router.path,
+          element: (
+            <Layout>
+              <ProfessorAuth>{router.element}</ProfessorAuth>
+            </Layout>
+          ),
+        };
+      } else if (router.authType === "staff") {
+        return {
+          path: router.path,
+          element: (
+            <Layout>
+              <StaffAuth>{router.element}</StaffAuth>
+            </Layout>
+          ),
+        };
+      } else if (router.authType === "student") {
+        return {
+          path: router.path,
+          element: (
+            <Layout>
+              <StudentAuth>{router.element}</StudentAuth>
+            </Layout>
+          ),
+        };
+      }
       return {
         path: router.path,
         element: <Layout>{router.element}</Layout>,

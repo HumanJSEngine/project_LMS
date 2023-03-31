@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import Header from "./Header/Header";
-import React from "react";
+import React, { useEffect } from "react";
 import getUserLogin from "../../utils/getUserLogin";
 import useRoute from "../../utils/useRoute";
 
@@ -11,15 +11,18 @@ interface LayoutProps {
 const Layout = ({ children }: LayoutProps) => {
   const { route } = useRoute();
   const { isLoginned, userInfo } = getUserLogin();
-  if (userInfo == null || !isLoginned) {
-    route("/");
-    return <></>;
-  }
-  return (
+  useEffect(() => {
+    if (!isLoginned) {
+      route("/");
+    }
+  }, [isLoginned]);
+  return userInfo != null ? (
     <Page>
       <Header userInfo={userInfo} />
       <div className="content">{children}</div>
     </Page>
+  ) : (
+    <></>
   );
 };
 

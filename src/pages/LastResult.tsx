@@ -10,13 +10,26 @@ import getClassParams from "../hooks/getClassParams";
 
 const LastResult = () => {
   const [swap, setSwap] = useState(true);
-  const classid = getClassParams();
-  console.log(classid);
+
+  const classid = getClassParams().classid;
+
+  const className = classid => {
+    let answer;
+    switch (classid) {
+      case "1":
+        answer = "BAC001-01";
+        break;
+      case "2":
+        answer = "FRO001-01";
+        break;
+    }
+    return answer;
+  };
 
 
   const getFinalLists = async () => {
     return await axios
-      .get("http://192.168.0.183:8520/api/final/BAC001-01")
+      .get(`http://192.168.0.183:8520/api/final/${className(classid)}`)
       .then(res => res.data);
   };
 
@@ -36,7 +49,7 @@ const LastResult = () => {
       {swap ? (
         <LastResultView FLists={FLists} />
       ) : (
-        <LastResultInput FLists={FLists} />
+        <LastResultInput FLists={FLists}/>
       )}
       <LastResultBtn swap={swap} setSwap={setSwap} />
     </AttendLayout>

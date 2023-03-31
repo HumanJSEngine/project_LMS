@@ -47,22 +47,24 @@ const LastSelectBox = ({
   scoreList,
   grade,
   studentCode,
+  lectureCode,
 }: LastSelectBoxProps) => {
   const [choiceValue, setChoiceValue] = useState(switchGrade(grade));
 
   const selectRef = useRef(null);
+
+  console.log('selecbox 전달', lectureCode);
 
   const handleChange = e => {
     setChoiceValue(selectRef.current.value);
     console.log(choiceValue);
   };
 
-  const lectureNum = scoreList[0].lecture;
-
   const onSubmit = e => {
     e.preventDefault();
-    const result = setLastResult(lectureNum, studentCode, choiceValue);
+    const result = setLastResult(studentCode, choiceValue, lectureCode);
     result.then(value => alert(value.message));
+    result.catch(err => alert(err.response.data.message));
   };
 
   return (

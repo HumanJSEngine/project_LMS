@@ -10,9 +10,23 @@ import {
 } from "@mui/material";
 import LastSelectBox from "./LastSelectBox";
 import { type FListsProps } from "../../types/LastResult";
+import getClassParams from "../../hooks/getClassParams";
 
 export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
-
+  const classid = getClassParams().classid;
+  console.log(classid);
+  const className = classid => {
+    let answer;
+    switch (classid) {
+      case "1":
+        answer = "BAC001-01";
+        break;
+      case "2":
+        answer = "FRO001-01";
+        break;
+    }
+    return answer;
+  };
   return (
     <>
       <h1>성적 수정</h1>
@@ -48,6 +62,7 @@ export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
                     scoreList={item.scoreList}
                     grade={item.grade}
                     studentCode={item.studentCode}
+                    lectureCode={className(classid)}
                   />
                 </TableCell>
               </TableRow>

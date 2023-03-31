@@ -8,6 +8,7 @@ import ReportView from "./ReportView";
 import ReportInput from "./ReportInput";
 import { useQuery } from "@tanstack/react-query";
 import ExitModalBtn from "./ExitModalBtn";
+import styled from "@emotion/styled";
 
 export default function BasicModal({ name }) {
   const [open, setOpen] = React.useState(false);
@@ -63,12 +64,24 @@ export default function BasicModal({ name }) {
           {swap ? (
             <ReportView RnumList={GetRnumList(RScoreLists, name)} />
           ) : (
-            <ReportInput RnumList={GetRnumList(RScoreLists, name)} name={name}/>
+            <ReportInput
+              RnumList={GetRnumList(RScoreLists, name)}
+              name={name}
+            />
           )}
-          <ReportBtn swap={swap} setSwap={setSwap} />
-          <ExitModalBtn handleClose={handleClose}>창닫기</ExitModalBtn>
+          <BtnBox>
+            <ReportBtn swap={swap} setSwap={setSwap} />
+            <ExitModalBtn handleClose={handleClose}>창닫기</ExitModalBtn>
+          </BtnBox>
         </Box>
       </Modal>
     </>
   );
 }
+
+const BtnBox = styled.div`
+  width: 100%;
+  height: 50px;
+  display: flex;
+  margin-top: 20px;
+`;

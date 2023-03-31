@@ -14,6 +14,7 @@ interface MyClassLayoutProps {
 
 const MyClassLayout = ({ children }: MyClassLayoutProps) => {
   const pathname = location.pathname;
+  console.log('pathname', pathname);
   const { classname, classInfo } = getClassParams();
   const [isMenuOpen, setIsMenuOpen] = useState(true);
   const toggleMenu = () => {
@@ -38,7 +39,31 @@ const MyClassLayout = ({ children }: MyClassLayoutProps) => {
             <MyClassMenuItem
               isActive={`/myclass/${classInfo}/grade/attend` === pathname}
             >
-              <Link to={`/myclass/${classInfo}/grade/attend`}>성적 관리</Link>
+              <Link to={`/myclass/${classInfo}/grade/attend`}>출결 관리</Link>
+            </MyClassMenuItem>
+            <MyClassMenuItem
+              isActive={`/myclass/${classInfo}/grade/midterm` === pathname}
+            >
+              <Link to={`/myclass/${classInfo}/grade/midterm`}>
+                중간시험 관리
+              </Link>
+            </MyClassMenuItem>
+            <MyClassMenuItem
+              isActive={`/myclass/${classInfo}/grade/finterm` === pathname}
+            >
+              <Link to={`/myclass/${classInfo}/grade/finterm`}>
+                기말시험 관리
+              </Link>
+            </MyClassMenuItem>
+            <MyClassMenuItem
+              isActive={`/myclass/${classInfo}/grade/report` === pathname}
+            >
+              <Link to={`/myclass/${classInfo}/grade/report`}>과제 관리</Link>
+            </MyClassMenuItem>
+            <MyClassMenuItem
+              isActive={`/myclass/${classInfo}/grade/total` === pathname}
+            >
+              <Link to={`/myclass/${classInfo}/grade/total`}>최종 성적</Link>
             </MyClassMenuItem>
           </ul>
         )}

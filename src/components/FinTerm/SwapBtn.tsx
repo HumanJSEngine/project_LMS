@@ -5,14 +5,15 @@ import Button from "@mui/material/Button";
 const SwapBtn = ({ switchView, setSwitchView }) => {
   return (
     <Btn variant="contained" onClick={() => setSwitchView(prev => !prev)}>
-      {switchView ? <span>성적 수정</span> : <span>성적 입력</span>}
+      {switchView ? <span>성적 수정</span> : <span>성적 조회</span>}
     </Btn>
   );
 };
 
 const Btn = styled(Button)`
-  width: 60px;
-  height: 40px;
+  width: 100px;
+  height: 50px;
+  margin-top: 10px;
   white-space: nowrap;
 `;
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react";
 import {
   Paper,
   Table,
@@ -8,17 +8,19 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { ScoreInput } from './ScoreInput';
+import { ScoreInput } from "./ScoreInput";
+import getClassParams from "../../hooks/getClassParams";
 
-
-const MidtermSwitch = ({lists}) => {
+const MidtermSwitch = ({ lists }) => {
+  const params = getClassParams().classid;
+  console.log('중간성적 classid', params);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 800 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <TableCell align="left">학생/점수</TableCell>
-            <TableCell align="left">점수</TableCell>
+            <TableCell align="right">점수</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -27,15 +29,19 @@ const MidtermSwitch = ({lists}) => {
               <TableCell component="th" scope="row">
                 {list.name}
               </TableCell>
-              <TableCell align="left">
-                <ScoreInput score={list.score} mbSeq={list.mbSeq}/>
-                </TableCell>
+              <TableCell align="right">
+                <ScoreInput
+                  score={list.score}
+                  mbSeq={list.mbSeq}
+                  liSeq={params}
+                />
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
     </TableContainer>
   );
-}
+};
 
-export default MidtermSwitch
+export default MidtermSwitch;

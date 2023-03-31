@@ -26,9 +26,6 @@ const Header = ({ userInfo }: HeaderProps) => {
   return (
     <Box>
       <ProfileBox>
-        <div className="profile-image">
-          <img src="" alt="" />
-        </div>
         <div className="profile-info">
           <p>
             {userInfo.type === "professor"

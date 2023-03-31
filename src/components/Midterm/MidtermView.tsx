@@ -17,16 +17,16 @@ const MidtermView = ({lists}) => {
         <TableHead>
           <TableRow>
             <TableCell align="left">학생/점수</TableCell>
-            <TableCell align="left">점수</TableCell>
+            <TableCell align="right">점수</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {lists.map(list => (
             <TableRow key={list.name}>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="left">
                 {list.name}
               </TableCell>
-              <TableCell align="left">{list.score}</TableCell>
+              <TableCell align="right">{list.score}</TableCell>
             </TableRow>
           ))}
         </TableBody>

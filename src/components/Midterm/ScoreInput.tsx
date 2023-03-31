@@ -8,19 +8,17 @@ interface ScoreInputProps {
   mbSeq: number;
 }
 
-export const ScoreInput = ({ mbSeq, score }: ScoreInputProps) => {
+export const ScoreInput = ({ mbSeq, score, liSeq }: ScoreInputProps) => {
+
+  console.log('클래스값 전달', liSeq);
   const inputRef = useRef(null);
   const [inputValue, setInputValue] = useState(score);
   const handleInputChange = () => {
     setInputValue(inputRef.current.value);
   };
-
-  console.log("input 값 확인", inputValue);
-  console.log("mbSeq", mbSeq);
-
   const onSubmit = e => {
     e.preventDefault();
-    const result = setMidtermResult(1, mbSeq, inputValue);
+    const result = setMidtermResult(liSeq, mbSeq, inputValue);
     result.then(value => alert(value.message));
   };
 
@@ -42,6 +40,7 @@ export const ScoreInput = ({ mbSeq, score }: ScoreInputProps) => {
 const Container = styled.form`
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   gap: 10px 0px;
 
   input {

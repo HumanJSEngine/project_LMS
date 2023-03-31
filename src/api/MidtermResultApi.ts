@@ -20,7 +20,7 @@ export const setMidtermResult = async (
 
   try {
     const res = await apiClient.post(
-      `http://192.168.0.183:8520/api/sco/${liSeq}`,
+      'http://192.168.0.183:8520/api/sco/1',
       body,
     );
     const { data } = res;

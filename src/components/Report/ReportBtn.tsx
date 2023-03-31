@@ -9,7 +9,7 @@ interface RBtnsProps {
 const ReportBtn = ({ swap, setSwap }: RBtnsProps) => {
   return (
     <Btn onClick={() => setSwap(swap => !swap)} variant="contained">
-      {swap ? "입력" : "저장"}
+      {swap ? "점수수정" : "점수조회"}
     </Btn>
   );
 };

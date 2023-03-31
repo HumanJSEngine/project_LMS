@@ -5,13 +5,18 @@ import AttendSwitch from "../components/Attend/AttendSwitch";
 import AttendBtn from "../components/Attend/AttendBtn";
 import axios from "axios";
 import { useQuery, useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import getClassParams from "../hooks/getClassParams";
 
 const Attend = () => {
   const [swap, setSwap] = useState(false);
+  const params = getClassParams().classid;
+
+  console.log(params);
 
   const getAttendLists = async () => {
     return await axios
-      .get("http://192.168.0.183:8520/api/atd/1")
+      .get(`http://192.168.0.183:8520/api/atd/${params}`)
       .then(res => res.data.list);
   };
 
@@ -38,7 +43,7 @@ const Attend = () => {
         {swap ? (
           <AttendTable attendLists={attendLists} />
         ) : (
-          <AttendSwitch attendLists={attendLists}/>
+          <AttendSwitch attendLists={attendLists} />
         )}
 
         <AttendBtn swap={swap} setSwap={setSwap}>

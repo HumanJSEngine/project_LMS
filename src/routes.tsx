@@ -13,6 +13,7 @@ import MyClassLayout from "./components/myclass/MyClassLayout";
 import { type UserType } from "./types/User";
 import React from "react";
 import EditClass from "./pages/EditClass";
+import MakeClass from "./pages/MakeClass";
 type MenuDepthType = "main";
 
 interface IRoute {
@@ -116,26 +117,26 @@ export const routerData: IRoute[] = [
     withAuth: true,
     authType: "professor",
   },
-  {
-    name: "학생, 교수 관리",
-    path: "/management",
-    element: <Auth />,
-    withAuth: true,
-    menuDepth: "main",
-    authType: "staff",
-  },
-  {
-    name: "전체 계정 조회",
-    path: "/account",
-    element: <Auth />,
-    withAuth: true,
-    menuDepth: "main",
-    authType: "staff",
-  },
+  // {
+  //   name: "학생, 교수 관리",
+  //   path: "/management",
+  //   element: <Auth />,
+  //   withAuth: true,
+  //   menuDepth: "main",
+  //   authType: "staff",
+  // },
+  // {
+  //   name: "전체 계정 조회",
+  //   path: "/account",
+  //   element: <Auth />,
+  //   withAuth: true,
+  //   menuDepth: "main",
+  //   authType: "staff",
+  // },
   {
     name: "강의 개설",
     path: "/makeclass",
-    element: <Auth />,
+    element: <MakeClass />,
     withAuth: true,
     menuDepth: "main",
     authType: "staff",

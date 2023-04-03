@@ -1,74 +1,58 @@
 import React, { useState } from "react";
-import { useTheme } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Table from "@mui/material/Table";
-import TableHead from "@mui/material/TableHead";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableFooter from "@mui/material/TableFooter";
-import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import IconButton from "@mui/material/IconButton";
-import FirstPageIcon from "@mui/icons-material/FirstPage";
-import KeyboardArrowLeft from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRight from "@mui/icons-material/KeyboardArrowRight";
-import LastPageIcon from "@mui/icons-material/LastPage";
+import axios from "axios";
 import MidtermSwitch from "../components/Midterm/MidtermSwitch";
-
-function createData(name: string, score: number) {
-  return { name, score };
-}
-
-const rows = [
-  createData("학생1", 305),
-  createData("학생2", 452),
-  createData("학생3", 262),
-  createData("학생4", 305),
-  createData("학생5", 452),
-  createData("학생6", 262),
-  createData("학생7", 305),
-  createData("학생8", 452),
-  createData("학생9", 262),
-  createData("학생10", 305),
-  createData("학생11", 452),
-  createData("학생12", 262),
-];
+import MidtermView from "../components/Midterm/MidtermView";
+import { useQuery } from "@tanstack/react-query";
+import Button from "@mui/material/Button";
+import styled from "@emotion/styled";
+import getClassParams from "../hooks/getClassParams";
 
 export default function CustomPaginationActionsTable() {
-  const [swap, setSwap] = useState(false);
+  const [swap, setSwap] = useState(true);
+  const params = getClassParams().classid;
 
+  console.log("classid", params);
+
+  const getMidtermLists = async () => {
+    return await axios
+      .get('http://192.168.0.183:8520/api/sco/1/2')
+      .then(res => res.data.list[0].list);
+  };
+
+  const {
+    status,
+    error,
+    data: MidtermLists,
+  } = useQuery({
+    queryKey: ["MidtermLists"],
+    queryFn: getMidtermLists,
+  });
+  if (status === "loading") return <h1>Loading...</h1>;
+  if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
+
+  console.log("중간성적", MidtermLists);
   return (
-    <>
-      {swap ? <h1>중간성적</h1> : <h1>중간성적수정</h1>}
+    <Container>
+      {swap ? <h1>중간 성적 조회</h1> : <h1>중간 성적 수정</h1>}
       {swap ? (
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 800 }} aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell align="left">학생/점수</TableCell>
-                <TableCell align="left">점수</TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows.map(row => (
-                <TableRow key={row.name}>
-                  <TableCell component="th" scope="row">
-                    {row.name}
-                  </TableCell>
-                  <TableCell align="left">{row.score}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <MidtermView lists={MidtermLists} />
       ) : (
-        <MidtermSwitch />
+        <MidtermSwitch lists={MidtermLists} />
       )}
-      <button type="submit" onClick={() => setSwap(prev => !prev)}>
-        {swap ? "수정" : "저장"}
-      </button>
-    </>
+      <SwapButton variant="contained" onClick={() => setSwap(prev => !prev)}>
+        {swap ? "성적 입력" : "성적 조회"}
+      </SwapButton>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  width: 100%;
+  height: 100%;
+  padding: 20px;
+`;
+const SwapButton = styled(Button)`
+  width: 100px;
+  height: 50px;
+  margin-top: 10px;
+`;

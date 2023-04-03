@@ -9,6 +9,7 @@ import { type IUser } from "../types/User";
 import { userAtom } from "../store/user/atom";
 import getUserLogin from "../utils/getUserLogin";
 import { useNavigate } from "react-router-dom";
+import logo from "../../src/logo.png";
 
 const Auth = () => {
   const { isLoginned, userInfo } = getUserLogin();
@@ -18,7 +19,7 @@ const Auth = () => {
       if (userInfo?.type === "professor") {
         navigate("/myschedule");
       } else if (userInfo?.type === "staff") {
-        navigate("/management");
+        navigate("/editclass");
       } else if (userInfo?.type === "student") {
         navigate("/");
       }
@@ -40,7 +41,7 @@ const Auth = () => {
         if (res.type === "professor") {
           navigate("/myschedule");
         } else if (res.type === "staff") {
-          navigate("/management");
+          navigate("/editclass");
         } else if (res.type === "student") {
           navigate("/");
         }
@@ -68,6 +69,15 @@ const Auth = () => {
 
   return (
     <Box>
+      <img
+        src={logo}
+        alt="logo"
+        style={{
+          width: "300px",
+          height: "200px",
+          paddingBottom: "50px",
+        }}
+      />
       <AuthForm onSubmit={onSubmitHandler}>
         <AuthTextArea>
           <CustomTextField

@@ -8,12 +8,9 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import { ScoreInput } from "./ScoreInput";
-import getClassParams from "../../hooks/getClassParams";
 
-const MidtermSwitch = ({ lists }) => {
-  const params = getClassParams().classid;
-  console.log('중간성적 classid', params);
+
+const MidtermView = ({lists}) => {
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 800 }} aria-label="simple table">
@@ -26,16 +23,10 @@ const MidtermSwitch = ({ lists }) => {
         <TableBody>
           {lists.map(list => (
             <TableRow key={list.name}>
-              <TableCell component="th" scope="row">
+              <TableCell component="th" scope="row" align="left">
                 {list.name}
               </TableCell>
-              <TableCell align="right">
-                <ScoreInput
-                  score={list.score}
-                  mbSeq={list.mbSeq}
-                  liSeq={params}
-                />
-              </TableCell>
+              <TableCell align="right">{list.score}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -44,4 +35,4 @@ const MidtermSwitch = ({ lists }) => {
   );
 };
 
-export default MidtermSwitch;
+export default MidtermView;

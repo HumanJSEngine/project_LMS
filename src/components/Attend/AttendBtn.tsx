@@ -9,13 +9,15 @@ interface AttendBtnProps {
 const AttendBtn = ({ swap, setSwap }: AttendBtnProps) => {
   return (
     <AttendButton variant="contained" onClick={() => setSwap(!swap)}>
-      성적수정
+      {swap ? "출결 수정" : "출결 조회"}
     </AttendButton>
   );
 };
 
 const AttendButton = styled(Button)`
-  height: 80px;
+  width: 100px;
+  height: 50px;
+  margin-top: 10px;
 `;
 
 export default AttendBtn;

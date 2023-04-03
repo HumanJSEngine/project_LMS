@@ -2,25 +2,25 @@ import { apiClient } from "./apiClient";
 import { type AxiosError } from "axios";
 
 interface LastResultProps {
-  message(message: any): void | PromiseLike<void>;
-  lecture: string;
-  studentCode: string;
-  choiceValue: string;
+  liSeq: number;
+  mbSeq: number;
+  score: number;
 }
 
-export const setLastResult = async (
-  studentCode: string,
-  choiceValue: string,
-  lectureCode: string,
+export const setFintermResult = async (
+  liSeq,
+  mbSeq,
+  score,
 ): Promise<LastResultProps> => {
   const body = {
-    studentCode,
-    grade: choiceValue,
+    masSeq: 2,
+    mbSeq: mbSeq,
+    score: score,
   };
 
   try {
     const res = await apiClient.post(
-      `http://192.168.0.183:8520/api/final/${lectureCode}`,
+      `http://192.168.0.183:8520/api/sco/${liSeq}`,
       body,
     );
     const { data } = res;

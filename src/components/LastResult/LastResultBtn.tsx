@@ -9,7 +9,7 @@ interface BtnProps {
 const LastResultBtn = ({ swap, setSwap }: BtnProps) => {
   return (
     <Btn
-      size="large"
+      size="medium"
       variant="contained"
       onClick={() => setSwap(prev => !prev)}
     >
@@ -22,5 +22,6 @@ const Btn = styled(Button)`
   width: 100px;
   font-size: 15px;
   font-weight: 600;
+  margin-top: 20px;
 `;
 export default LastResultBtn;

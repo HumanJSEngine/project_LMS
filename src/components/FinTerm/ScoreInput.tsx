@@ -1,29 +1,29 @@
 import React, { useState, useRef } from "react";
 import styled from "@emotion/styled";
-import MidtermBtn from "./MidtermBtn";
-import { setMidtermResult } from "../../api/MidtermResultApi";
+import InputBtn from "./InputBtn";
+import { setFintermResult } from "../../api/FinTermResultApi";
 
 interface ScoreInputProps {
-  score: number;
   mbSeq: number;
+  score: number;
 }
-
-export const ScoreInput = ({ mbSeq, score, liSeq }: ScoreInputProps) => {
-
-  console.log('클래스값 전달', liSeq);
+export const ScoreInput = ({ mbSeq, score }: ScoreInputProps) => {
   const inputRef = useRef(null);
   const [inputValue, setInputValue] = useState(score);
   const handleInputChange = () => {
     setInputValue(inputRef.current.value);
   };
+
+
   const onSubmit = e => {
     e.preventDefault();
-    const result = setMidtermResult(liSeq, mbSeq, inputValue);
+    console.log(e);
+    const result = setFintermResult(1, mbSeq, inputValue);
     result.then(value => alert(value.message));
   };
 
   return (
-    <Container onSubmit={onSubmit}>
+    <InputContainer onSubmit={onSubmit}>
       <input
         type="text"
         ref={inputRef}
@@ -32,23 +32,15 @@ export const ScoreInput = ({ mbSeq, score, liSeq }: ScoreInputProps) => {
         onChange={handleInputChange}
         style={{ width: "60px" }}
       />
-      <MidtermBtn />
-    </Container>
+      <InputBtn />
+    </InputContainer>
   );
 };
 
-const Container = styled.form`
+const InputContainer = styled.form`
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 10px 0px;
-
-  input {
-    border: 1px solid red;
-    &:focus {
-      outline: red;
-    }
-  }
+  gap: 5px 0px;
 `;
-
-export default ScoreInput;

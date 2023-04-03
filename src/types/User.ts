@@ -5,4 +5,5 @@ export interface IUser {
   id: string | null;
   name: string | null;
   type: UserType | null;
+  token: string | null;
 }

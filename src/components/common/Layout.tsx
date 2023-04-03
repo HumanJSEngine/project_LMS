@@ -3,16 +3,18 @@ import Header from "./Header/Header";
 import React, { useEffect } from "react";
 import getUserLogin from "../../utils/getUserLogin";
 import useRoute from "../../utils/useRoute";
+import { type UserType } from "../../types/User";
 
 interface LayoutProps {
+  authType: UserType | undefined;
   children: React.ReactNode;
 }
 
-const Layout = ({ children }: LayoutProps) => {
+const Layout = ({ authType, children }: LayoutProps) => {
   const { route } = useRoute();
   const { isLoginned, userInfo } = getUserLogin();
   useEffect(() => {
-    if (!isLoginned) {
+    if (!isLoginned && userInfo?.type !== authType) {
       route("/");
     }
   }, [isLoginned]);

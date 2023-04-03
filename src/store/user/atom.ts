@@ -22,6 +22,7 @@ export const userAtom = atom<IUser>({
     id: null,
     name: null,
     type: null,
+    token: null,
   },
   effects: [localStorageEffect<IUser>("user")],
 });

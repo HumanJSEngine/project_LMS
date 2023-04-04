@@ -11,7 +11,7 @@ import AdminToggle from "./AdMakeClass/AdminToggle";
 
 const AdminMakeClass = () => {
   const handleBt = () => {
-    if (window.confirm("저장 할거임?")) {
+    if (window.confirm("저장 하시겠습니까?")) {
       alert("저장완료");
     } else {
       alert("취소완료");

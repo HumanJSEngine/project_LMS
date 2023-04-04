@@ -7,3 +7,14 @@ export const apiClient = axios.create({
     "Content-Type": "application/json",
   },
 });
+
+apiClient.interceptors.request.use(
+  config => {
+    const user = JSON.parse(localStorage.getItem("user") ?? "");
+    if (user?.token !== null) {
+      config.headers.Authorization = `Bearer ${String(user.token)}`;
+    }
+    return config;
+  },
+  async error => await Promise.reject(error),
+);

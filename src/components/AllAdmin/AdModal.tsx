@@ -166,7 +166,7 @@ const AdModal = ({
 
   return (
     <div>
-      <Button onClick={handleOpen}>비율수정</Button>
+      <Button onClick={handleOpen}>만점수정</Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -282,6 +282,7 @@ const AdModal = ({
     </div>
   );
 };
+
 const ModalForm = styled.form`
   margin-top: 20px;
 `;
@@ -298,7 +299,7 @@ const FlexBox = styled.div`
   margin-bottom: 20px;
   width: 90%;
 `;
-const BoxLayout = styled.div`
+export const BoxLayout = styled.div`
   display: flex;
   item-align: center;
   gap: 20px;

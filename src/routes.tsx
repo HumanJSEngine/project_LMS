@@ -8,16 +8,12 @@ import Midterm from "./pages/Midterm";
 import Report from "./pages/Report";
 import MySchedule from "./pages/MySchedule";
 import LastResult from "./pages/LastResult";
-import Setting from "./pages/Setting";
 import Student from "./pages/Student";
 import MyClassLayout from "./components/myclass/MyClassLayout";
 import { type UserType } from "./types/User";
 import React from "react";
 import EditClass from "./pages/EditClass";
 import MakeClass from "./pages/MakeClass";
-import ProfessorAuth from "./components/common/ProfessorAuth";
-import StaffAuth from "./components/common/StaffAuth";
-import StudentAuth from "./components/common/StudentAuth";
 type MenuDepthType = "main";
 
 interface IRoute {
@@ -154,48 +150,19 @@ export const routerData: IRoute[] = [
     authType: "staff",
   },
   {
-    name: "설정",
-    path: "/setting",
-    element: <Setting />,
-    withAuth: true,
-    authType: "all",
+    name: "404",
+    path: "*",
+    element: <Auth />,
+    withAuth: false,
   },
 ];
 
 export const routers = createBrowserRouter(
   routerData.map(router => {
     if (router.withAuth) {
-      if (router.authType === "professor") {
-        return {
-          path: router.path,
-          element: (
-            <Layout>
-              <ProfessorAuth>{router.element}</ProfessorAuth>
-            </Layout>
-          ),
-        };
-      } else if (router.authType === "staff") {
-        return {
-          path: router.path,
-          element: (
-            <Layout>
-              <StaffAuth>{router.element}</StaffAuth>
-            </Layout>
-          ),
-        };
-      } else if (router.authType === "student") {
-        return {
-          path: router.path,
-          element: (
-            <Layout>
-              <StudentAuth>{router.element}</StudentAuth>
-            </Layout>
-          ),
-        };
-      }
       return {
         path: router.path,
-        element: <Layout>{router.element}</Layout>,
+        element: <Layout authType={router.authType}>{router.element}</Layout>,
       };
     } else {
       return {

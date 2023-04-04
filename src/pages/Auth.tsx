@@ -30,12 +30,13 @@ const Auth = () => {
     onSuccess: res => {
       const { status } = res;
       if (status) {
-        const { seq, id, name, type } = res;
+        const { seq, id, name, type, token } = res;
         setUserAtom({
           seq,
           id,
           name,
           type,
+          token: token.accessToken,
         });
         if (res.type === "professor") {
           navigate("/myschedule");

@@ -109,7 +109,8 @@ const ManageStudent = ({ closeModal, studentInfo }: ManageStudentProps) => {
           return alert(res.message);
         }
       } catch (err) {
-        console.log(err);
+        editScore(id);
+        return alert("에러가 발생하였습니다. 다시 시도해주세요.");
       }
     }
   };

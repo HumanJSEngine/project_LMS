@@ -41,20 +41,9 @@ const Student = () => {
   const { classInfo } = useParams();
   const classid = classInfo?.split("_")[0];
   const [open, setOpen] = useState<boolean>(false);
-  // const [page, setPage] = useState<number>(0);
-  // const [rowsPerPage, setRowsPerPage] = useState<number>(1);
   const [selectedStudent, setSelectedStudent] = useState<IStudent | null>(null);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  // const handleChangePage = (event: unknown, newPage: number) => {
-  //   setPage(newPage);
-  // };
-  // const handleChangeRowsPerPage = (
-  //   event: React.ChangeEvent<HTMLInputElement>,
-  // ) => {
-  //   setRowsPerPage(parseInt(event.target.value, 10));
-  //   setPage(0);
-  // };
   const onManageStudentHandler = (student: IStudent) => {
     setSelectedStudent(student);
     handleOpen();
@@ -95,7 +84,7 @@ const Student = () => {
                     <TableCell align="left">{student.stuName}</TableCell>
                     <TableCell align="left">{student.stuGrade}</TableCell>
                     <TableCell align="left">{student.stuSubject}</TableCell>
-                    <TableCell align="right" width={60}>
+                    <TableCell align="right" width={100}>
                       <MoveToManage
                         onClick={() => onManageStudentHandler(student)}
                       >
@@ -108,15 +97,6 @@ const Student = () => {
             </TableBody>
           </Table>
         </TableContainer>
-        {/* <TablePagination */}
-        {/*  rowsPerPageOptions={[10, 20, 30]} */}
-        {/*  component="div" */}
-        {/*  count={data != null ? data.length : 0} */}
-        {/*  rowsPerPage={rowsPerPage} */}
-        {/*  page={page} */}
-        {/*  onPageChange={handleChangePage} */}
-        {/*  onRowsPerPageChange={handleChangeRowsPerPage} */}
-        {/* /> */}
       </Box>
       <Modal open={open}>
         <>
@@ -141,8 +121,8 @@ const Box = styled.div`
 const MoveToManage = styled.button`
   display: flex;
   align-items: center;
-  gap: 8px;
-  width: 48px;
+  justify-content: space-between;
+  width: 100%;
   color: ${colors.primary};
   background: ${colors.white};
   border: none;

@@ -19,7 +19,7 @@ const styles = css`
   body {
     height: 100%;
     overflow: hidden;
-    font-size: 15px;
+    font-size: 20px;
     font-weight: 400;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;

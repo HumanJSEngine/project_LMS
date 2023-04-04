@@ -23,7 +23,7 @@ export default function StickyHeadTable({ FLists }: { FLists: FListsProps[] }) {
               <TableCell>학생/성적</TableCell>
               {FLists[0].scoreList.map(item => (
                 <TableCell key={item.seq} align="center">
-                  {item.name}
+                  {item.explanation}
                 </TableCell>
               ))}
               <TableCell>최종성적</TableCell>

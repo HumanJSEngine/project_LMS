@@ -5,12 +5,14 @@ import styled from "@emotion/styled";
 import axios from "axios";
 import SwapBtn from "../components/FinTerm/SwapBtn";
 import { useQuery } from "@tanstack/react-query";
+import getClassParams from "../hooks/getClassParams";
 
 const Finterm = () => {
-  const [switchView, setSwitchView] = React.useState(false);
+  const [switchView, setSwitchView] = React.useState(true);
+  const params = getClassParams().classid;
   const getFintermLists = async () => {
     return await axios
-      .get("http://192.168.0.183:8520/api/sco/1/3")
+      .get(`http://192.168.0.183:8520/api/sco/${params}/3`)
       .then(res => res.data.list[0].list);
   };
 
@@ -24,7 +26,6 @@ const Finterm = () => {
   });
   if (status === "loading") return <h1>Loading...</h1>;
   if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
-  console.log(FintermLists);
 
   return (
     <>

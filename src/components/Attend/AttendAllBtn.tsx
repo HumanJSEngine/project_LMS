@@ -1,47 +1,26 @@
 import Button from "@mui/material/Button";
 import styled from "@emotion/styled";
-import React, { useState, useEffect } from "react";
-
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { attendAllState } from "../../recoil/Atoms";
-import { attendAllSelector } from "../../recoil/Selectors";
+import React, { useState } from "react";
 import { setAttendAllResult } from "../../api/AttendAllSetApi";
-import { useMutation } from "@tanstack/react-query";
 
-// interface AttendBtnType {
-//   attendAll: boolean;
-//   setAttendAll: React.Dispatch<React.SetStateAction<boolean>>;
-// }
+interface AttendBtnProps {
+  amasSeq: number;
+  liSeq: number;
+}
 
-const AttendAllBtn = ({ amasSeq }) => {
-  const [attendAll, setAttendAll] = useState('');
-
-  // const attendNum = (attendAll, amasSeq) => {
-  //   const ans = attendAll.find(item => item.amasSeq === amasSeq);
-  //   return ans;
-  // };
-  // const attendAllList = useRecoilValue(attendAllSelector);
-
-  // useEffect(() => {
-  //   setAttendAll(prev => [
-  //     ...prev,
-  //     {
-  //       amasSeq: amasSeq,
-  //       attend: true,
-  //     },
-  //   ]);
-  // }, []);
+const AttendAllBtn = ({ amasSeq, liSeq }: AttendBtnProps) => {
+  const [attendAll, setAttendAll] = useState("");
 
   const attend = () => {
     setAttendAll(attendAll => true);
-    const result = setAttendAllResult(1, amasSeq, 1);
-    result.then(value => alert(value.message));
+    const result = setAttendAllResult(liSeq, amasSeq, 1);
+    result.then(value => alert(value.message)).catch(error => alert(error));
   };
 
   const absence = () => {
     setAttendAll(attendAll => false);
-    const result = setAttendAllResult(1, amasSeq, 0);
-    result.then(value => alert(value.message));
+    const result = setAttendAllResult(liSeq, amasSeq, 0);
+    result.then(value => alert(value.message)).catch(error => alert(error));
   };
 
   return (

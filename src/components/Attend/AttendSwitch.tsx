@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-
 import AttendButtons from "./AttendButtons";
 import AttendAllBtn from "./AttendAllBtn";
 import { InputmbSeq } from "../../utils/InputmbSeq";
@@ -15,7 +13,7 @@ import {
 } from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 
-const AttendSwitch = ({ attendLists }) => {
+const AttendSwitch = ({ attendLists, params }) => {
   const newArr = InputmbSeq(attendLists);
 
   return (
@@ -28,7 +26,7 @@ const AttendSwitch = ({ attendLists }) => {
               <TableCell>전체 출결</TableCell>
               {attendLists[0].list.map(list => (
                 <TableCell key={list.amasSeq} component="th" scope="row">
-                  <AttendAllBtn amasSeq={list.amasSeq} />
+                  <AttendAllBtn amasSeq={list.amasSeq} liSeq={params}/>
                 </TableCell>
               ))}
             </TableRow>

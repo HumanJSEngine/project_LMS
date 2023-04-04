@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import axios from "axios";
 
 import {
@@ -13,14 +13,16 @@ import {
 
 import ReportModal from "../components/Report/ReportModal";
 import { useQuery } from "@tanstack/react-query";
+import getClassParams from "../hooks/getClassParams";
 
 export default function BasicTable() {
+  const params = getClassParams().classid;
   const getReportLists = async () => {
     return await axios
-      .get("http://192.168.0.183:8520/api/assignment/1")
+      .get(`http://192.168.0.183:8520/api/assignment/${params}`)
       .then(res => res.data.list);
   };
-  
+
   const {
     status,
     error,
@@ -62,7 +64,7 @@ export default function BasicTable() {
                 </TableCell>
                 <TableCell align="center">{list.adate}</TableCell>
                 <TableCell align="right">
-                  <ReportModal name={list.aname} score={list.adate}/>
+                  <ReportModal name={list.aname} score={list.adate} />
                 </TableCell>
               </TableRow>
             ))}

@@ -1,18 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState} from "react";
 import AttendLayout from "../components/Attend/AttendLayout";
 import AttendTable from "../components/Attend/AttendTable";
 import AttendSwitch from "../components/Attend/AttendSwitch";
 import AttendBtn from "../components/Attend/AttendBtn";
 import axios from "axios";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import getClassParams from "../hooks/getClassParams";
 
 const Attend = () => {
-  const [swap, setSwap] = useState(false);
+  const [swap, setSwap] = useState(true);
   const params = getClassParams().classid;
 
-  console.log(params);
+  console.log("강의 번호", params);
 
   const getAttendLists = async () => {
     return await axios
@@ -43,7 +42,7 @@ const Attend = () => {
         {swap ? (
           <AttendTable attendLists={attendLists} />
         ) : (
-          <AttendSwitch attendLists={attendLists} />
+          <AttendSwitch attendLists={attendLists} params={params} />
         )}
 
         <AttendBtn swap={swap} setSwap={setSwap}>

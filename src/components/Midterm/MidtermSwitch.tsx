@@ -9,11 +9,9 @@ import {
   TableRow,
 } from "@mui/material";
 import { ScoreInput } from "./ScoreInput";
-import getClassParams from "../../hooks/getClassParams";
 
-const MidtermSwitch = ({ lists }) => {
-  const params = getClassParams().classid;
-  console.log('중간성적 classid', params);
+const MidtermSwitch = ({ lists, liSeq }) => {
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 800 }} aria-label="simple table">
@@ -33,7 +31,7 @@ const MidtermSwitch = ({ lists }) => {
                 <ScoreInput
                   score={list.score}
                   mbSeq={list.mbSeq}
-                  liSeq={params}
+                  liSeq={liSeq}
                 />
               </TableCell>
             </TableRow>

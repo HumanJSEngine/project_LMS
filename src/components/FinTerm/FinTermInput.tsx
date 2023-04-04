@@ -11,6 +11,7 @@ import {
 import { ScoreInput } from "./ScoreInput";
 
 const FinTermInput = ({ lists }) => {
+  console.log('평가번호 추적', lists)
   return (
     <>
       <h1>기말 성적 수정</h1>

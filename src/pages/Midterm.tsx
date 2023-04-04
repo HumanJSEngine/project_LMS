@@ -11,11 +11,10 @@ export default function CustomPaginationActionsTable() {
   const [swap, setSwap] = useState(true);
   const params = getClassParams().classid;
 
-  console.log("classid", params);
 
   const getMidtermLists = async () => {
     return await axios
-      .get('http://192.168.0.183:8520/api/sco/1/2')
+      .get(`http://192.168.0.183:8520/api/sco/${params}/2`)
       .then(res => res.data.list[0].list);
   };
 
@@ -30,14 +29,14 @@ export default function CustomPaginationActionsTable() {
   if (status === "loading") return <h1>Loading...</h1>;
   if (status === "error") return <h1>{JSON.stringify(error)}</h1>;
 
-  console.log("중간성적", MidtermLists);
+  console.log("중간성적 학생번호 조회", MidtermLists);
   return (
     <Container>
       {swap ? <h1>중간 성적 조회</h1> : <h1>중간 성적 수정</h1>}
       {swap ? (
         <MidtermView lists={MidtermLists} />
       ) : (
-        <MidtermSwitch lists={MidtermLists} />
+        <MidtermSwitch lists={MidtermLists} liSeq={params}/>
       )}
       <SwapButton variant="contained" onClick={() => setSwap(prev => !prev)}>
         {swap ? "성적 입력" : "성적 조회"}

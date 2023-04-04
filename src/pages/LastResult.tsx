@@ -5,11 +5,10 @@ import LastResultInput from "../components/LastResult/LastResultInput";
 import LastResultBtn from "../components/LastResult/LastResultBtn";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { useParams } from "react-router-dom";
 import getClassParams from "../hooks/getClassParams";
 
 const LastResult = () => {
-  const [swap, setSwap] = useState(true);
+  const [swap, setSwap] = useState<boolean>(true);
 
   const classid = getClassParams().classid;
 
@@ -26,6 +25,7 @@ const LastResult = () => {
     return answer;
   };
 
+  console.log("강의명", className(classid));
 
   const getFinalLists = async () => {
     return await axios

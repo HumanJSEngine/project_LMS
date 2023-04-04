@@ -6,16 +6,18 @@ import { setMidtermResult } from "../../api/MidtermResultApi";
 interface ScoreInputProps {
   score: number;
   mbSeq: number;
+  liSeq: number;
 }
 
-export const ScoreInput = ({ mbSeq, score, liSeq }: ScoreInputProps) => {
+export const ScoreInput = ({ score, mbSeq, liSeq }: ScoreInputProps) => {
+  console.log("수강번호", liSeq);
 
-  console.log('클래스값 전달', liSeq);
   const inputRef = useRef(null);
   const [inputValue, setInputValue] = useState(score);
   const handleInputChange = () => {
     setInputValue(inputRef.current.value);
   };
+
   const onSubmit = e => {
     e.preventDefault();
     const result = setMidtermResult(liSeq, mbSeq, inputValue);

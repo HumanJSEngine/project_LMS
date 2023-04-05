@@ -14,7 +14,7 @@ const Layout = ({ authType, children }: LayoutProps) => {
   const { route } = useRoute();
   const { isLoginned, userInfo } = getUserLogin();
   useEffect(() => {
-    if (!isLoginned && userInfo?.type !== authType) {
+    if (!isLoginned || userInfo?.type !== authType) {
       route("/");
     }
   }, [isLoginned]);

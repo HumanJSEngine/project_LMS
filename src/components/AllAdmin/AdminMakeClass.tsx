@@ -20,27 +20,31 @@ const AdminMakeClass = () => {
   return (
     <>
       <Container>
-        <h3>강의개설 [강의정보]</h3>
-        <SelectGrade />
-        <AdminTexts />
-        <AdminToggle />
-        <AdminContent />
-        <AdminGrade />
-        <EditButton
-          color="primary"
-          variant="contained"
-          type="button"
-          style={{ marginTop: 100 }}
-          onClick={handleBt}
-        >
-          저장
-        </EditButton>
+        <h1>강의개설</h1>
+        <Wrapper>
+          <SelectGrade />
+          <AdminTexts />
+          <AdminToggle />
+          <AdminContent />
+          <AdminGrade />
+          <EditButton
+            color="primary"
+            variant="contained"
+            type="button"
+            style={{ marginTop: 100 }}
+            onClick={handleBt}
+          >
+            저장
+          </EditButton>
+        </Wrapper>
       </Container>
     </>
   );
 };
 const Container = styled.div`
   margin-top: 100px;
+`;
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;

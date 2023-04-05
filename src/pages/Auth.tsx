@@ -31,6 +31,14 @@ const Auth = () => {
       const { status } = res;
       if (status) {
         const { seq, id, name, type, token } = res;
+        if (
+          res.type !== "staff" &&
+          res.type !== "student" &&
+          res.type !== "professor" &&
+          res.type === null
+        ) {
+          return alert("알수 없는 회원입니다.");
+        }
         setUserAtom({
           seq,
           id,
